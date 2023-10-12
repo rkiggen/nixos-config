@@ -1,0 +1,27 @@
+#+title: NIXOS CONFIG README
+#+author: Rob Kiggen
+
+* Introduction
+:properties:
+:link: https://github.com/MatthiasBenaets/nixos-config
+:link: https://github.com/chris-martin/home
+:link: https://www.foodogsquared.one/posts/2023-03-05-combining-traditional-dotfiles-and-nixos-configurations-with-nix-flakes/
+:link: https://nixos-and-flakes.thiscute.world/
+:link: https://typeclasses.substack.com/p/flakes-nixos-desktop  
+:end:
+
+The goal of my current NixOS configuration is to create a multi machine / multi user setup where a single user X can
+have different profiles across multiple machines.
+
+If you want to learn more about NixOS and the way you can install & configure it, I can recommend the following resources:
+- [[https://benaets.com/posts/nixos/][Getting Started with NixOS]] by Mathias Benaets
+- [[https://nixos.wiki/wiki/Wil_T_Nix_Guides][Will T Nix Guides]] by Will Taylor
+
+  
+* NixOS Installation Guide
+
+To be written out
+
+todo:
+- Ventoy for usb installer;
+- include maintenance commands;
