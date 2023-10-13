@@ -53,24 +53,24 @@ Create at least 2 partitions one boot partition and one root partition, the boot
 When the partitioning is done, you can setup the encrytion:
 
 #+begin_src
-  cryptset luksFormat /dev/sda2 # encrypt the partition with luks
-  cryptsetup luksOpen /dev/sda2 sda2-enc # decrypt the partition to a device name sda2-enc
+$ cryptset luksFormat /dev/sda2 # encrypt the partition with luks
+$ cryptsetup luksOpen /dev/sda2 sda2-enc # decrypt the partition to a device name sda2-enc
 #+end_src
 
 Now we are ready to add our encrypted volume to LVM:
 
 #+begin_src
- pvcreate /dev/mapper/sda2-enc # add our encrypted partition as physical volume to LVM
- vgcreate vg-nixos /dev/mapper/sda2-enc # add the physical volume to volumegroup vg-nixos
- lvcreate -L 8G -n lv-swap vg-nixos # setup a logical volume (8GB size) for swap purposes in vg-nixos
- lvcreate -l '100%FREE' -n lv-root vg-nixos # create a logical volume for your root (remaing size) in vg-nixos
+$ pvcreate /dev/mapper/sda2-enc # add our encrypted partition as physical volume to LVM
+$ vgcreate vg-nixos /dev/mapper/sda2-enc # add the physical volume to volumegroup vg-nixos
+$ lvcreate -L 8G -n lv-swap vg-nixos # setup a logical volume (8GB size) for swap purposes in vg-nixos
+$ lvcreate -l '100%FREE' -n lv-root vg-nixos # create a logical volume for your root (remaing size) in vg-nixos
 #+end_src
 
 Format the =swap= and =root= partitions:
 
-#+begin_srcA
- mkswap -L swap /dev/vg-nixos/lv-swap
- mkfs.ext4 -L root /dev/vg-nixos/lv-root 
+#+begin_src
+$ mkswap -L swap /dev/vg-nixos/lv-swap
+$ mkfs.ext4 -L root /dev/vg-nixos/lv-root 
 #+end_src
 
 
