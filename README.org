@@ -44,10 +44,34 @@ First identify whether your computer uses UEFI or legacy BIOS for booting and th
 
 https://gist.github.com/martijnvermaat/76f2e24d0239470dd71050358b4d5134
 
-If you want to encrypt multiple partitions, it is good to know that upon booting the decryption password for the first partition will also be used for decrypting al subsequent passwords.
+If you want to encrypt multiple partitions, it is good to know that upon booting the decryption password for the first partition will also be used for decrypting all subsequent partitions.
 Which means that if you want to enter only one password for decryption you'll need to encrypt all partitions with the same password.
 
-You can either choose to encrypt the partitions first and them use those as physical volumes for LVM (LUKS + LVM or LVM on top of LUKS) or you can set up LVM first and encrypt the logical volums with LUKS later (LVM + LUKS or LUKS on top of LVM). I prefer to use LUKS + LVM.
+You can either choose to encrypt the partitions (or drives) first and them use those as physical volumes for LVM (LUKS + LVM or LVM on top of LUKS) or you can set up LVM first and encrypt the logical volums with LUKS later (LVM + LUKS or LUKS on top of LVM). I prefer to use LUKS + LVM.
+
+Create at least 2 partitions one boot partition and one root partition, the boot partition will either be an ext4 partition (legacy BIOS) or a ESP/fat partition (UEFI) whereas the root partition will be a LVM (8300 Linux LVM) partition.
+When the partitioning is done, you can setup the encrytion:
+
+#+begin_src
+  cryptset luksFormat /dev/sda2 # encrypt the partition with luks
+  cryptsetup luksOpen /dev/sda2 sda2-enc # decrypt the partition to a device name sda2-enc
+#+end_src
+
+Now we are ready to add our encrypted volume to LVM:
+
+#+begin_src
+ pvcreate /dev/mapper/sda2-enc # add our encrypted partition as physical volume to LVM
+ vgcreate vg-nixos /dev/mapper/sda2-enc # add the physical volume to volumegroup vg-nixos
+ lvcreate -L 8G -n lv-swap vg-nixos # setup a logical volume (8GB size) for swap purposes in vg-nixos
+ lvcreate -l '100%FREE' -n lv-root vg-nixos # create a logical volume for your root (remaing size) in vg-nixos
+#+end_src
+
+Format the =swap= and =root= partitions:
+
+#+begin_srcA
+ mkswap -L swap /dev/vg-nixos/lv-swap
+ mkfs.ext4 -L root /dev/vg-nixos/lv-root 
+#+end_src
 
 
 * Todo
