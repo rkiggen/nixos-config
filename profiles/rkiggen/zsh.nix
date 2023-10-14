@@ -18,6 +18,7 @@
   # direnv hook
   programs.zsh.initExtra = ''
     eval "$(${pkgs.direnv}/bin/direnv hook zsh)"
+    export LIBVIRT_DEFAULT_URI="qemu:///system"
     pfetch
   '';
 }
