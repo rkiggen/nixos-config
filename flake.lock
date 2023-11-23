@@ -19,6 +19,25 @@
         "type": "github"
       }
     },
+    "home-manager-l231028a": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1695108154,
+        "narHash": "sha256-gSg7UTVtls2yO9lKtP0yb66XBHT1Fx5qZSZbGMpSn2c=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "07682fff75d41f18327a871088d20af2710d4744",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "ref": "release-23.05",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1687466461,
@@ -67,6 +86,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-for-nixos-l231028a": {
+      "locked": {
+        "lastModified": 1698562188,
+        "narHash": "sha256-9nkxGnA/T+jLhHAMFRW157Qi/zfbf5dF1q7HfKROl3o=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "3e10c80821dedb93592682379f476745f370a58e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-23.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-for-rider-l211008a": {
       "locked": {
         "lastModified": 1696983906,
@@ -74,6 +109,22 @@
         "owner": "nixos",
         "repo": "nixpkgs",
         "rev": "bd1cde45c77891214131cbbea5b1203e485a9d51",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-23.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-for-rider-l231028a": {
+      "locked": {
+        "lastModified": 1698562188,
+        "narHash": "sha256-9nkxGnA/T+jLhHAMFRW157Qi/zfbf5dF1q7HfKROl3o=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "3e10c80821dedb93592682379f476745f370a58e",
         "type": "github"
       },
       "original": {
@@ -99,6 +150,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-from-stable-l231028a": {
+      "locked": {
+        "lastModified": 1698562188,
+        "narHash": "sha256-9nkxGnA/T+jLhHAMFRW157Qi/zfbf5dF1q7HfKROl3o=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "3e10c80821dedb93592682379f476745f370a58e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-23.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-from-unstable-l211008a": {
       "locked": {
         "lastModified": 1696879762,
@@ -115,14 +182,51 @@
         "type": "github"
       }
     },
+    "nixpkgs-from-unstable-l231028a": {
+      "locked": {
+        "lastModified": 1698611440,
+        "narHash": "sha256-jPjHjrerhYDy3q9+s5EAsuhyhuknNfowY6yt6pjn9pc=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "0cbe9f69c234a7700596e943bfae7ef27a31b735",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1687466461,
+        "narHash": "sha256-oupXI7g7RPzlpGUfAu1xG4KBK53GrZH8/xeKgKDB4+Q=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "ecb441f22067ba1d6312f4932a7c64efa8d19a7b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-23.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "home-manager-l211008a": "home-manager-l211008a",
+        "home-manager-l231028a": "home-manager-l231028a",
         "nixpkgs-for-lib": "nixpkgs-for-lib",
         "nixpkgs-for-nixos-l211008a": "nixpkgs-for-nixos-l211008a",
+        "nixpkgs-for-nixos-l231028a": "nixpkgs-for-nixos-l231028a",
         "nixpkgs-for-rider-l211008a": "nixpkgs-for-rider-l211008a",
+        "nixpkgs-for-rider-l231028a": "nixpkgs-for-rider-l231028a",
         "nixpkgs-from-stable-l211008a": "nixpkgs-from-stable-l211008a",
-        "nixpkgs-from-unstable-l211008a": "nixpkgs-from-unstable-l211008a"
+        "nixpkgs-from-stable-l231028a": "nixpkgs-from-stable-l231028a",
+        "nixpkgs-from-unstable-l211008a": "nixpkgs-from-unstable-l211008a",
+        "nixpkgs-from-unstable-l231028a": "nixpkgs-from-unstable-l231028a"
       }
     }
   },

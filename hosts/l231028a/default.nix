@@ -173,8 +173,6 @@
     neovim      # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     ntfs3g 	# support ntfs file systems
-    samba	# support samba shares
-    cifs-utils  # tools for managing Linux CIFS client filesystems
     usbutils 	# tools for working with USB devices
     # i3
     xorg.xrandr

@@ -32,6 +32,8 @@
     nixpkgs.from.stable.simple-scan
     nixpkgs.from.stable.simplescreenrecorder
     nixpkgs.from.stable.smartmontools 					# monitoring health hard drives
+    nixpkgs.from.stable.syncthing					# open source continuous file synchronization
+    nixpgks.from.stable.syncthingtray-minimal				# tray application for syncthing
     nixpkgs.from.stable.texlive.combined.scheme-full 			# latex environment
     nixpkgs.from.stable.thunderbird 					# email client
     nixpkgs.from.stable.tmux 						# multiplexer
