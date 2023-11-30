@@ -16,6 +16,7 @@
       virt-viewer
       spice spice-gtk
       spice-protocol
+      virtiofsd
       win-virtio
       win-spice
       gnome.adwaita-icon-theme
