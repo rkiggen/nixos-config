@@ -1,4 +1,4 @@
-{ config, pkgs, ...};
+{ config, pkgs, ...}:
 
 {
   # enable virtualization (KVM/QEMU & LXD)
