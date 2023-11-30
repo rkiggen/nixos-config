@@ -6,6 +6,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./virtualization.nix
       ./users.nix
     ];
 
@@ -34,17 +35,6 @@
 
   # enable (Thunder)Bolt daemon
   services.hardware.bolt.enable = true;
-
-  # enable virtualization (KVM/QEMU & LXD)
-  boot.kernelModules = ["kvm-intel" "kvm-amd"];
-  virtualisation = {
-    libvirtd.enable = true;                    # enable KVM/QEMU
-    lxd.enable = true;                         # enable LXD
-    # virtualbox.host.enable = true;           # enable VirtualBox
-    # docker.enable = true;                    # enable Docker
-    vswitch.enable = true;                     # enable OpenVSwitch
-    vswitch.resetOnStart = true;
-  };
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;

@@ -1,3 +1,3 @@
 # host-install.sh
 #!/bin/sh
-sudo nixos-rebuild switch --flake .#l211008a 
+sudo nixos-rebuild switch --flake .

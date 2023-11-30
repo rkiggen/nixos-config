@@ -40,8 +40,6 @@
     nixpkgs.from.stable.tree 						# command to produce a depth indented directory listing 
     nixpkgs.from.stable.tor-browser-bundle-bin 				# tor browser
     nixpkgs.from.stable.veracrypt					# file encryption
-    nixpkgs.from.stable.virt-manager					# manage kvm machines
-    nixpkgs.from.stable.virt-viewer 					# a viewer for remote virtual machines (with spice webdav support)
     nixpkgs.from.stable.vlc
     nixpkgs.from.stable.vscode						# visual studio code (development ide)
     nixpkgs.from.stable.wineWowPackages.staging				# open source implementation of the Windows API on top of X, OpenGL, and Unix 
