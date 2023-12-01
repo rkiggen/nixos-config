@@ -12,6 +12,7 @@
     ./emacs.nix
     ./zsh.nix
     ./starship.nix
+    ./piding.nix
   ];
 
   fonts.fontconfig.enable = true;
