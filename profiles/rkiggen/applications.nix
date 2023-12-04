@@ -46,5 +46,6 @@
     nixpkgs.from.stable.winetricks
     nixpkgs.from.stable.xdotool 					# cli x11 automation tool (simulate keyboard and mouse activity)
     nixpkgs.from.stable.xprintidle 					# utility that queries the X server for the user's idle time and prints it to stdout
+    nixpkgs.from.stable.zoom-us						# video conferencing application 
   ];
 }  

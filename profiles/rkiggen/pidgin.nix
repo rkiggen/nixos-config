@@ -10,6 +10,8 @@
 	pkgs.purple-slack 
 	pkgs.purple-discord 
 	pkgs.purple-matrix  
+	#pkgs.tdlib-purple
+	pkgs.pidgin-window-merge
      ];
   };
 }
