@@ -127,6 +127,7 @@
   services.avahi = {
     enable = true;
     nssmdns = true;
+    openFirewall = true;
     publish = {                               # Needed for detecting the scanner
         enable = true;
         addresses = true;
