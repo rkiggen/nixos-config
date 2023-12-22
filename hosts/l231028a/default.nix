@@ -6,7 +6,8 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./users.nix
+      ../common/users.nix
+      ../common/virtualization.nix
     ];
 
 
@@ -35,22 +36,11 @@
   # enable (Thunder)Bolt daemon
   services.hardware.bolt.enable = true;
 
-  # enable virtualization (KVM/QEMU & LXD)
-  boot.kernelModules = ["kvm-intel" "kvm-amd"];
-  virtualisation = {
-    libvirtd.enable = true;                    # enable KVM/QEMU
-    lxd.enable = true;                         # enable LXD
-    # virtualbox.host.enable = true;           # enable VirtualBox
-    # docker.enable = true;                    # enable Docker
-    vswitch.enable = true;                     # enable OpenVSwitch
-    vswitch.resetOnStart = true;
-  };
-
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   # Define your hostname.
-  networking.hostName = "l211008a";  
+  networking.hostName = "l231028a";
 
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -137,6 +127,7 @@
   services.avahi = {
     enable = true;
     nssmdns = true;
+    openFirewall = true;
     publish = {                               # Needed for detecting the scanner
         enable = true;
         addresses = true;
@@ -173,10 +164,12 @@
     neovim      # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     ntfs3g 	# support ntfs file systems
+    samba	# support samba shares
+    cifs-utils  # tools for managing Linux CIFS client filesystems
     usbutils 	# tools for working with USB devices
     # i3
     xorg.xrandr
-    lxappearance 
+    lxappearance
     # xfce
     xfce.xfce4-whiskermenu-plugin
   ];

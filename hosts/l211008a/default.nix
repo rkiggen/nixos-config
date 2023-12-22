@@ -6,8 +6,8 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./virtualization.nix
-      ./users.nix
+      ../common/virtualization.nix
+      ../common/users.nix
     ];
 
 
