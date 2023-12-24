@@ -8,6 +8,8 @@
       ./hardware-configuration.nix
       ../common/users.nix
       ../common/virtualization.nix
+      ../common/fonts.nix
+      ../common/systempackages.nix
     ];
 
 
@@ -145,34 +147,6 @@
   hardware.sane.enable = true;   #Enable support for SANE scanners.
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
-
-  fonts.fonts = with pkgs; [
-    carlito                                 # NixOS
-    vegur                                   # NixOS
-    source-code-pro
-    jetbrains-mono
-    font-awesome                            # font awesome v6 (icons)
-    font-awesome_4			    # font awesome v4 (icons)
-    corefonts                               # MS
-    (nerdfonts.override { fonts = [ "FiraCode" "FiraMono" "DroidSansMono" ]; })
-  ];
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.variables.EDITOR = "nvim";
-  environment.systemPackages = with pkgs; [
-    neovim      # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    ntfs3g 	# support ntfs file systems
-    samba	# support samba shares
-    cifs-utils  # tools for managing Linux CIFS client filesystems
-    usbutils 	# tools for working with USB devices
-    # i3
-    xorg.xrandr
-    lxappearance
-    # xfce
-    xfce.xfce4-whiskermenu-plugin
-  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
