@@ -53,15 +53,20 @@
   networking.enableIPv6 = false;
 
   # Fix systemd predictable naming issue when randomly plugging in extra devices (like Thunderbolt dock with a nic)
-  services.udev.extraRules =  ''
-     # PCI device: 000:33:00.0 - thunderbolt dock nic
-     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="84:3a:5b:9d:70:3e", NAME="enp53s0"
-     # PCI device: 000:35:00.0 - internal ethernet nic
-     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="80:fa:5b:9b:2d:cc", NAME="enp55s0"
-     # PCI device: 000:36:00.0 - internal wireless
-     SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="f0:77:c3:b6:db:2c", NAME="wlp56s0"
-  '';
+  #services.udev.extraRules =  ''
+  #   # PCI device: 000:33:00.0 - thunderbolt dock nic
+  #   SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="84:3a:5b:9d:70:3e", NAME="enp53s0"
+  #   # PCI device: 000:35:00.0 - internal ethernet nic
+  #   SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="80:fa:5b:9b:2d:cc", NAME="enp55s0"
+  #   # PCI device: 000:36:00.0 - internal wireless
+  #   SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="f0:77:c3:b6:db:2c", NAME="wlp56s0"
+  #'';
 
+  # Enable Tuxedo-rs: Rust utilities for interacting with hardware from TUXEDO Computers (alternative to Tuxedo Control Center)
+  hardware.tuxedo-rs = {
+    enable = true;
+    tailor-gui.enable = true;
+  };
 
   # if you use ipv4, this is all you need
   boot.kernel.sysctl."net.ipv4.conf.all.forwarding" = true; # enable ip forwarding
