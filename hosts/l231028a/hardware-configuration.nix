@@ -13,6 +13,8 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
   
+  boot.kernelParams = [ "i915.force_probe=4626" ];
+
   # Unencrypt LUKS partition
   boot.initrd.luks.devices."nvme0n1p2-enc" = {
       name  = "nvme0n1p2-enc";
