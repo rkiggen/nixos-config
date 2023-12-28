@@ -13,6 +13,7 @@
     pciutils	# collection of programs for inspecting and manipulating configuration of PCI devices
     cifs-utils  # tools for managing Linux CIFS client filesystems
     usbutils 	# tools for working with USB devices
+    dmidecode   # a tool that reads information about your system's hardware from the BIOS according to the SMBIOS/DMI standard 
     # i3
     xorg.xrandr
     lxappearance
