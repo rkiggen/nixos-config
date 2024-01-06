@@ -74,6 +74,79 @@ $ mkfs.ext4 -L root /dev/vg-nixos/lv-root
 #+end_src
 
 
-* Todo
+* Maintenance
 
-- include maintenance commands;
+** Update your system
+
+** Clean up your system
+
+You can configure NixOS to automatically clean up your system, see the section about
+[[https://nixos.wiki/wiki/Storage_optimization][storage optimization]] for more info.
+
+*** Delete old generations
+:properties:
+:link: https://medium.com/thelinux/how-to-remove-old-generations-of-nixos-b072db4ad01e
+:link: https://nixos.org/manual/nix/stable/package-management/garbage-collection.html 
+:link: https://nixos.org/manual/nix/stable/command-ref/nix-collect-garbage.html 
+:end:
+
+First list the generations:
+#+BEGIN_SRC
+sudo nix-env --list-generations
+# or following command does not work the use profile options
+sudo nix-env --list-generations --profile /nix/var/nix/profiles/system 
+#+END_SRC
+
+To remove the unused generations, you run the =nix-env= command with profile and =delete-generations= option.
+
+The =delete-generations= option accept an ID as an argument. In this argument, you pass one or multiple IDs. To delete the
+old generation in NixOS.
+
+#+BEGIN_SRC
+sudo nix-env --delete-generations 10 
+# or
+sudo nix-env --delete-generations 10 11 12 13 14 15 16 17 18 19 20 21
+
+# or following command does not work the use profile options
+
+sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations 10 
+# or 
+sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations 10 11 12 13 14 15 16 17 18 19 20 21 
+#+END_SRC
+
+Afterwards don't forget to run the garbage collector:
+
+#+BEGIN_SRC
+ sudo nix-store --gc 
+#+END_SRC
+
+There is also a convenient little utility =nix-collect-garbage=, which when invoked with the -d (--delete-old) switch
+deletes all old generations of all profiles in /nix/var/nix/profiles. So 
+
+#+BEGIN_SRC
+ sudo nix-collect-garbage -d
+#+END_SRC
+
+is a quick and easy way to clean up your system.
+
+*** Remove obsolete boot entries
+:properties:
+:link: https://nixos.wiki/wiki/Bootloader
+:end:
+
+First, collect garbages in your system, then rebuild the bootloader.
+
+Execute garbage collection for NixOS:
+#+BEGIN_SRC
+  # remove everything older than 14 days
+  sudo nix-collect-garbage --delete-older-than 14d
+  # or remove all old generations (everything but the current generation)
+  sudo nix-collect-garbage -d
+#+END_SRC
+
+Rebuild the bootloader:
+#+BEGIN_SRC
+  sudo nixos-rebuild boot --flake .
+#+END_SRC
+
+
