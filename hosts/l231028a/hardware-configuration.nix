@@ -7,12 +7,13 @@
   imports =
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
-
+  
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.initrd.availableKernelModules = [ "xhci_pci" "thunderbolt" "ahci" "nvme" "usb_storage" "usbhid" "uas" "sd_mod" "sdhci_pci" ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
-  
+
   # Unencrypt LUKS partition
   boot.initrd.luks.devices."nvme0n1p2-enc" = {
       name  = "nvme0n1p2-enc";
