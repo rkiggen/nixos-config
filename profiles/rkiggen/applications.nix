@@ -33,6 +33,7 @@
     nixpkgs.from.stable.simplescreenrecorder
     nixpkgs.from.stable.smartmontools 					# monitoring health hard drives
     nixpkgs.from.stable.syncthing					# open source continuous file synchronization
+    nixpkgs.from.stable.spaceFM						# multi-panel tabbed file and desktop manager for Linux
     nixpkgs.from.stable.syncthingtray-minimal				# tray application for syncthing
     nixpkgs.from.stable.texlive.combined.scheme-full 			# latex environment
     nixpkgs.from.stable.thunderbird 					# email client
