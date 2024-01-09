@@ -11,6 +11,7 @@
 	pkgs.purple-discord 
 	pkgs.purple-matrix  
 	#pkgs.tdlib-purple
+ 	pkgs.purple-plugin-pack
 	pkgs.pidgin-window-merge
      ];
   };
