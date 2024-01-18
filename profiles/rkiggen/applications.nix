@@ -40,6 +40,7 @@
     nixpkgs.from.stable.tmux 						# multiplexer
     nixpkgs.from.stable.tree 						# command to produce a depth indented directory listing 
     nixpkgs.from.stable.tor-browser-bundle-bin 				# tor browser
+    nixpkgs.from.stable.unzip						# an extraction utility for archives compressed in .zip format
     nixpkgs.from.stable.veracrypt					# file encryption
     nixpkgs.from.stable.vlc
     nixpkgs.from.stable.vscode						# visual studio code (development ide)
