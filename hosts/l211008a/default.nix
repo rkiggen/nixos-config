@@ -7,6 +7,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ../common/virtualization.nix
+      ../common/scanners.nix
       ../common/users.nix
       ../common/systempackages.nix
     ];
@@ -143,7 +144,6 @@
   };
   hardware.pulseaudio.enable = true;
   hardware.bluetooth.enable = true;
-  hardware.sane.enable = true;   #Enable support for SANE scanners.
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
 
