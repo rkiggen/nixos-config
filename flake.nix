@@ -47,7 +47,7 @@
 	  };
 	  nixpkgs.from = {
 	    stable = import inputs."nixpkgs-from-stable-${hostname}" nixpkgsConfig;
-	    unstable = import inputs."nixpkgs-from-unstable-{hostname}" nixpkgsConfig;
+	    unstable = import inputs."nixpkgs-from-unstable-${hostname}" nixpkgsConfig;
 	  };
         in inputs."nixpkgs-for-nixos-${hostname}".lib.nixosSystem {
 	  inherit system;
