@@ -54,6 +54,34 @@
         "type": "github"
       }
     },
+    "nixpkgs-for-doublecmd-l211008a": {
+      "locked": {
+        "lastModified": 1704290814,
+        "narHash": "sha256-LWvKHp7kGxk/GEtlrGYV68qIvPHkU9iToomNFGagixU=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "70bdadeb94ffc8806c0570eb5c2695ad29f0e421",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-23.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-for-doublecmd-l231028a": {
+      "locked": {
+        "lastModified": 1693355128,
+        "narHash": "sha256-+ZoAny3ZxLcfMaUoLVgL9Ywb/57wP+EtsdNGuXUJrwg=",
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/a63a64b593dcf2fe05f7c5d666eb395950f36bc9.tar.gz"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://github.com/NixOS/nixpkgs/archive/a63a64b593dcf2fe05f7c5d666eb395950f36bc9.tar.gz"
+      }
+    },
     "nixpkgs-for-lib": {
       "locked": {
         "lastModified": 1703068421,
@@ -218,6 +246,8 @@
       "inputs": {
         "home-manager-l211008a": "home-manager-l211008a",
         "home-manager-l231028a": "home-manager-l231028a",
+        "nixpkgs-for-doublecmd-l211008a": "nixpkgs-for-doublecmd-l211008a",
+        "nixpkgs-for-doublecmd-l231028a": "nixpkgs-for-doublecmd-l231028a",
         "nixpkgs-for-lib": "nixpkgs-for-lib",
         "nixpkgs-for-nixos-l211008a": "nixpkgs-for-nixos-l211008a",
         "nixpkgs-for-nixos-l231028a": "nixpkgs-for-nixos-l231028a",

@@ -18,6 +18,10 @@
     nixpkgs-from-unstable-l211008a.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-from-unstable-l231028a.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    # Double Commander
+    nixpkgs-for-doublecmd-l211008a.url = "github:nixos/nixpkgs/nixos-23.05"; # Double Commander 1.0.11
+    nixpkgs-for-doublecmd-l231028a.url = "https://github.com/NixOS/nixpkgs/archive/a63a64b593dcf2fe05f7c5d666eb395950f36bc9.tar.gz"; # Double Commander 1.0.11 
+
     # Rider 
     nixpkgs-for-rider-l211008a.url = "github:nixos/nixpkgs/nixos-23.05"; # Rider 2023.1.2
     #nixpkgs-for-rider-l211008a.url = "https://github.com/NixOS/nixpkgs/archive/64c27498901f104a11df646278c4e5c9f4d642db.tar.gz"; # Rider 22.3.2 (unstable channel)
@@ -44,6 +48,7 @@
 	  home-manager = inputs."home-manager-${hostname}";
 	  nixpkgs.for = {
 	    rider = import inputs."nixpkgs-for-rider-${hostname}" nixpkgsConfig;
+	    doublecmd = import inputs."nixpkgs-for-doublecmd-${hostname}" nixpkgsConfig;
 	  };
 	  nixpkgs.from = {
 	    stable = import inputs."nixpkgs-from-stable-${hostname}" nixpkgsConfig;

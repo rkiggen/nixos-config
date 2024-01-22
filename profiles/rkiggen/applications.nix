@@ -7,7 +7,7 @@
     nixpkgs.from.stable.brave				   	     	# privacy oriented browser based on chrome
     nixpkgs.from.stable.calibre					     	# ebook reader
     nixpkgs.from.stable.direnv					     	# shell extension that manages your environment
-    nixpkgs.from.unstable.doublecmd					# dual pane file manager (totalcmd clone)
+    nixpkgs.for.doublecmd.doublecmd					# dual pane file manager (totalcmd clone)
     nixpkgs.from.stable.firefox 					# browser
     nixpkgs.from.stable.gimp						# graphics editor
     nixpkgs.from.stable.git						# source control
