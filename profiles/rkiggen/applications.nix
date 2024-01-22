@@ -7,7 +7,7 @@
     nixpkgs.from.stable.brave				   	     	# privacy oriented browser based on chrome
     nixpkgs.from.stable.calibre					     	# ebook reader
     nixpkgs.from.stable.direnv					     	# shell extension that manages your environment
-    nixpkgs.from.stable.doublecmd					# dual pane file manager (totalcmd clone)
+    nixpkgs.from.unstable.doublecmd					# dual pane file manager (totalcmd clone)
     nixpkgs.from.stable.firefox 					# browser
     nixpkgs.from.stable.gimp						# graphics editor
     nixpkgs.from.stable.git						# source control
@@ -33,7 +33,6 @@
     nixpkgs.from.stable.simplescreenrecorder
     nixpkgs.from.stable.smartmontools 					# monitoring health hard drives
     nixpkgs.from.stable.syncthing					# open source continuous file synchronization
-    nixpkgs.from.stable.spaceFM						# multi-panel tabbed file and desktop manager for Linux
     nixpkgs.from.stable.syncthingtray-minimal				# tray application for syncthing
     nixpkgs.from.stable.texlive.combined.scheme-full 			# latex environment
     nixpkgs.from.stable.thunderbird 					# email client
