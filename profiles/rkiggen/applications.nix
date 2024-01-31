@@ -15,6 +15,7 @@
     nixpkgs.from.stable.inetutils					# collection of common network progranms (telnet)
     nixpkgs.for.rider.jetbrains.rider 					# development ide
     nixpkgs.from.stable.keepassxc 					# password manager
+    nixpkgs.from.stable.khal						# CLI calendar application
     nixpkgs.from.stable.killall
     nixpkgs.from.stable.libreoffice 					# office suite (microsoft office alternative)
     nixpkgs.from.stable.losslesscut-bin 				# swiss army knife of lossless video/audio editing
@@ -40,6 +41,7 @@
     nixpkgs.from.stable.tree 						# command to produce a depth indented directory listing 
     nixpkgs.from.stable.tor-browser-bundle-bin 				# tor browser
     nixpkgs.from.stable.unzip						# an extraction utility for archives compressed in .zip format
+    nixpkgs.from.stable.vdirsyncer					# synchronize calendars and contacts
     nixpkgs.from.stable.veracrypt					# file encryption
     nixpkgs.from.stable.vlc
     nixpkgs.from.stable.vscode						# visual studio code (development ide)
