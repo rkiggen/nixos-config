@@ -49,7 +49,7 @@
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
   networking.hosts = {
-    "10.0.2.100" = [ "Canona9afc7.local" "Canona9afc7" ];
+    "10.48.6.66" = [ "Canona9afc7.local" "Canona9afc7" ];
   };
   networking.enableIPv6 = false;
 
