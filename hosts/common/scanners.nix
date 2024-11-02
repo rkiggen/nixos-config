@@ -8,7 +8,7 @@
       enable = true;                          # Enable Brother 5 driver support
       netDevices = {
         ads1700w = {
-          ip = "10.0.2.102";
+          ip = "10.48.5.2";
           model = "ADS-1700W";
         };
       };

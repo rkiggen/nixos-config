@@ -63,12 +63,6 @@
   #   SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="f0:77:c3:b6:db:2c", NAME="wlp56s0"
   #'';
 
-  # Enable Tuxedo-rs: Rust utilities for interacting with hardware from TUXEDO Computers (alternative to Tuxedo Control Center)
-  hardware.tuxedo-rs = {
-    enable = true;
-    tailor-gui.enable = true;
-  };
-
   # if you use ipv4, this is all you need
   boot.kernel.sysctl."net.ipv4.conf.all.forwarding" = true; # enable ip forwarding
   # boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
@@ -96,13 +90,11 @@
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
-    displayManager = {
-      lightdm.enable = true;
-      #defaultSession = "xfce";
-      defaultSession = "none+i3";
-    };
     desktopManager.xterm.enable = false;
     desktopManager.xfce.enable = true;
+    displayManager = {
+        lightdm.enable = true;
+    };
     windowManager.i3 = {
       enable = true;
       package = pkgs.i3-gaps;
@@ -112,17 +104,21 @@
         i3lock #default i3 screen locker
       ];
     };
+
+    # Configure keymap in X11
+    xkb = { 
+       variant = "altgr-intl";
+       layout = "us";
+       #options = {
+           #"eurosign:e";
+           #"caps:escape" # map caps to escape.
+       #};
+    };
   };
 
-  # Configure keymap in X11
-  services.xserver = {
-    layout = "us";
-    xkbVariant = "altgr-intl";
-  # xkbOptions = {
-  #   "eurosign:e";
-  #   "caps:escape" # map caps to escape.
-  # };
-  };
+  services.displayManager.defaultSession = "xfce";
+  # services.displayManager.defaultSession = "none+i3";
+
 
   # Enable CUPS to print documents.
   services.printing = {
@@ -134,7 +130,7 @@
   # Enable avahi for (wireless) printer discovery
   services.avahi = {
     enable = true;
-    nssmdns = true;
+    nssmdns4 = true;
     openFirewall = true;
     publish = {                               # Needed for detecting the scanner
         enable = true;
@@ -153,7 +149,7 @@
   hardware.bluetooth.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
+  services.libinput.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -174,6 +170,10 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+  networking.firewall = {
+      allowedUDPPorts = [ 51820 ]; # Clients and peers can use the same port, see listenport
+      checkReversePath = "loose";
+  };
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
