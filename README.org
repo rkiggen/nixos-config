@@ -20,6 +20,5 @@ Summary steps:
 5. Once done and save, I run =sudo nixs-install --root /mnt= and wait;
 6. Reboot into my new system
 
-
-
-
+Working this way means I have to apply my personal config later, but it gives me that first persistent generation
+to fallback on sice otherwise I'd have to redo the entire thing all over again.
