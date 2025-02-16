@@ -1,0 +1,25 @@
+* Introduction
+
+In this document I describe my way of working (installing & updating) with NixOS.
+
+
+* Installing NixOS
+
+I tend to install new pc's with the bare minimum config (with some sensible defaults) I need 
+and once I've booted into the persisted system, I apply the config I want. This approach allows
+me to rollback to a working version.
+
+Summary steps:
+1. After booting into the installer, I launch parted and partition my drives;
+2. I mount the necessary partitions as =/mnt= and =/mnt/boot= (according to the NixOS installation manual;
+3. I run =sud nixos-generate-config --root .mnt= which creates 2 files: config & hardware config;
+4. I edit these file to configure some basic things/sensible default, like:
+ - creating a user
+ - setting a hostname
+ - have some default applications like: browser, text editor
+5. Once done and save, I run =sudo nixs-install --root /mnt= and wait;
+6. Reboot into my new system
+
+
+
+
