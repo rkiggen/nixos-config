@@ -10,9 +10,9 @@ and once I've booted into the persisted system, I apply the config I want. This 
 me to rollback to a working version.
 
 Summary steps:
-1. After booting into the installer, I launch parted and partition my drives;
+1. After booting into the installer, I launch a partition editor and partition my drives;
 2. I mount the necessary partitions as =/mnt= and =/mnt/boot= (according to the NixOS installation manual;
-3. I run =sud nixos-generate-config --root .mnt= which creates 2 files: config & hardware config;
+3. I run =sudo nixos-generate-config --root .mnt= which creates 2 files: config & hardware config;
 4. I edit these file to configure some basic things/sensible default, like:
  - creating a user
  - setting a hostname
@@ -22,3 +22,96 @@ Summary steps:
 
 Working this way means I have to apply my personal config later, but it gives me that first persistent generation
 to fallback on sice otherwise I'd have to redo the entire thing all over again.
+
+** Easy initial configuration
+
+NixOS provides good support for the Xfce desktop environment out-of-the-box, but the defaults are minimal. The files in the default folder provide 
+a more complete experience, including a suite of basic software and plugins.
+
+You can change the generated configuration.nix file by including the desired .nix files from the =defaults= folder.
+The nix.nix file under the defaults folder is for instance already setup to enable flakes support.
+
+#+begin_example
+{ config, pkgs, lib, ... }:
+
+{
+  imports = [
+    ./hardware-configuration.nix
+    ./defaults/nix.nix
+    ./defaults/xfce.nix
+  ];
+
+  # the rest of your nixos configuration
+}
+#+end_example
+
+
+** Managing the configuration with Git
+:properties:
+:link: https://nixos-and-flakes.thiscute.world/nixos-with-flakes/other-useful-tips
+:end:
+
+NixOS configuration, being a set of text files, is well-suited for version control with Git. This allows easy rollback to a previous version in case of issues.
+
+By default, NixOS places the configuration in =/etc/nixos=, which requires root permissions for modification, making it inconvenient for daily use. Thankfully, Flakes can help solve this problem by allowing you to place your flake anywhere you prefer.
+
+For example, you can place your flake in ~/nixos-config and create a symbolic link in /etc/nixos as follows:
+
+#+begin_src shell
+sudo mv /etc/nixos /etc/nixos.bak  # Backup the original configuration
+sudo ln -s ~/nixos-config /etc/nixos
+
+# Deploy the flake.nix located at the default location (/etc/nixos)
+sudo nixos-rebuild switch
+#+end_src
+
+
+* Appendix
+
+** Using Flakes
+
+*** Enabling Flakes Support for NixOS
+:properties:
+:link: https://nixos-and-flakes.thiscute.world/nixos-with-flakes/nixos-with-flakes-enabled
+:end:
+
+Currently, Flakes is still an experimental feature and not enabled by default. We need to manually modify the /etc/nixos/configuration.nix file to enable the Flakes feature and the accompanying new nix command-line tool:
+
+#+begin_example
+{ config, pkgs, ... }:
+
+{
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
+
+  # ......
+
+  # Enable the Flakes feature and the accompanying new nix command-line tool
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  environment.systemPackages = with pkgs; [
+    # Flakes clones its dependencies through the git command,
+    # so git must be installed first
+    git
+    vim
+    wget
+  ];
+  # Set the default editor to vim
+  environment.variables.EDITOR = "vim";
+
+  # ......
+}
+#+end_example
+
+
+After making these changes, run =sudo nixos-rebuild switch= to apply the modifications. Then, you can use the Flakes feature to manage your system configuration.
+
+The new nix command-line tool also offers some convenient features. For example, you can now use the =nix repl= command to open a nix interactive environment. If you're interested, you can use it to review and test all the Nix syntax you've learned before.
+
+*** Switching System Configuration to =flake.nix=
+:properties:
+:link: https://nixos-and-flakes.thiscute.world/nixos-with-flakes/nixos-with-flakes-enabled
+:end:
+
+To be written out!
