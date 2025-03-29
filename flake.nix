@@ -13,11 +13,7 @@
 	l241214a = nixpkgs.lib.nixosSystem {
 	    system = "x86_64-linux";
 	    modules = [
-	        ./host.nix
-		./nix.nix
-		./users.nix
-		./xfce.nix
-		./hardware-configuration.nix
+	        ./hosts/l241214a/configuration.nix
 	    ];
 	};
     };
