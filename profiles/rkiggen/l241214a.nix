@@ -9,7 +9,7 @@
     ./browsers/tor-browser.nix
     ./terminals/wezterm
     ./shells/zsh.nix
-    ./emacs.nix
+    #./emacs.nix
   ];
 
   home.stateVersion = "24.11";

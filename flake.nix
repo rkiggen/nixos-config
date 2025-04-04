@@ -24,8 +24,8 @@
 
 
     # Home-manager
-    home-manager.l231028a.url = "github:nix-community/home-manager/release-24.05";
-    home-manager.l241214a.url = "github:nix-community/home-manager/release-24.11";
+    home-manager-l231028a.url = "github:nix-community/home-manager/release-24.05";
+    home-manager-l241214a.url = "github:nix-community/home-manager/release-24.11";
   };
 
   outputs = inputs:

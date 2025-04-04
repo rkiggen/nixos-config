@@ -8,7 +8,7 @@
     # Fonts
     nixpkgs.from.stable.corefonts
     nixpkgs.from.stable.fira
-    nixpkgs.from.stable.ffira-code-nerdfont
+    nixpkgs.from.stable.fira-code-nerdfont
     nixpkgs.from.stable.fira-code
     nixpkgs.from.stable.fira-mono
     nixpkgs.from.stable.lato

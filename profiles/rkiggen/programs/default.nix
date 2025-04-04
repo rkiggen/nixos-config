@@ -6,7 +6,8 @@ imports = [
     ./fonts.nix
     ./fzf.nix
     ./git.nix
-    ./gpg.nix
+    ./libreoffice.nix
+    # ./gpg.nix
     ./yazi.nix
     ./starship.nix
   ];
