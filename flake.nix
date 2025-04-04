@@ -42,33 +42,33 @@
 	  home-manager = inputs."home-manager-${hostname}";
 	  nixpkgs.for = {
 	    rider = import inputs."nixpkgs-for-rider-${hostname}" nixpkgsConfig;
+	    doublecmd = import inputs."nixpkgs-for-doublecmd-${hostname}" nixpkgsConfig;
 	  };
-
 	  nixpkgs.from = {
 	    stable = import inputs."nixpkgs-from-stable-${hostname}" nixpkgsConfig;
-	    unstable = imports inputs."nixpgks-from-unstable-${hostname}" nixpkgsConfig;
+	    unstable = import inputs."nixpkgs-from-unstable-${hostname}" nixpkgsConfig;
 	  };
-	in inputs."nixpkgs-for-nixos-${hostname}".lib.nixosSystem {
+        in inputs."nixpkgs-for-nixos-${hostname}".lib.nixosSystem {
 	  inherit system;
 	  specialArgs = { inherit home-manager; };
 	  modules = [
 	    ./hosts/${hostname}
-	    home-manager.nixosModule
+	    home-manager.nixosModule 
 	    {
 	      home-manager = {
 	        extraSpecialArgs = { inherit nixpkgs; };
 		users.rkiggen = {
-		  imports = [./profiles/rkiggen/${hostname}.nix ];
+		  imports = [ ./profiles/rkiggen/${hostname}.nix ];
 		};
 	      };
 	    }
-	  ]
+	  ];
 	};
-
+      
       in {
         nixosConfigurations = {
-	  l231028a = mkNixos "l231028a";
-	  l241214a = mkNixos "l241214a";
+          l231028a = mkNixos "l231028a";
+          l241214a = mkNixos "l241214a";
 	};
       };
 
