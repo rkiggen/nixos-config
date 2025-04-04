@@ -1,0 +1,38 @@
+{
+  description = "Rob's NixOS System Configurations";
+
+  inputs = {
+    # Nix library functions
+    nixpgks-for-lib.url = "github:nixos/nixpkgs/nixos-24.11";
+
+    # Stable, general purpose
+    nixpkgs-from-stable-l231028a.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs-from-stable-l241214a.url = "github:nixos/nixpkgs/nixos-24.11";
+    
+    # Unstable, general purpose
+    nixpkgs-from-unstable-l231028a.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-from-unstable-l241214a.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    # Rider
+    #nixpkgs-for-rider-l211008a.url = "https://github.com/NixOS/nixpkgs/archive/64c27498901....tar.gz"; # Rider 22.3.2 (unstable channel)
+    nixpkgs-for-rider-l231028a.url = "github:nixos/nixpkgs/nixos-24.05"; # Rider 2023.1.2
+    nixpkgs-for-rider-l241214a.url = "github:nixos/nixpkgs/nixos-24.11"; 
+
+
+    # Home-manager
+    home-manager.l231028a.url = "github:nix-community/home-manager/release-24.05";
+    home-manager.l241214a.url = "github:nix-community/home-manager/release-24.11";
+  };
+
+  outputs = { self, nixpkgs }: {
+    nixosConfigurations = {
+        # This should correspond to the hostname of the machine
+	l241214a = nixpkgs.lib.nixosSystem {
+	    system = "x86_64-linux";
+	    modules = [
+	        ./hosts/l241214a/configuration.nix
+	    ];
+	};
+    };
+  };
+}

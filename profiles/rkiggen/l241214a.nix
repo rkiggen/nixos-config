@@ -2,7 +2,7 @@
 
   imports = [
     # paths to other modules
-    ./window_managers/i3.nix
+    #./window_managers/i3.nix
     ./programs
     ./browsers/firefox.nix
     ./browsers/brave.nix
