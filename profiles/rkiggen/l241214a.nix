@@ -2,19 +2,30 @@
 
   imports = [
     # paths to other modules
-    #./window_managers/i3.nix
-    ./programs
-    ./browsers/firefox.nix
-    ./browsers/brave.nix
-    ./browsers/tor-browser.nix
-    ./terminals/wezterm
-    ./shells/zsh.nix
-    #./emacs.nix
+    ./applications.nix
+    #./i3.nix
+    ./firefox.nix
+    ./brave.nix
+    ./tor-browser.nix
+    ./emacs.nix
+    ./wezterm.nix
+    ./zsh.nix
+    ./cheat-sheets.nix
+    ./direnv.nix
+    ./fonts.nix
+    ./fzf.nix
+    ./git.nix
+    # ./gpg.nix
+    ./yazi.nix
+    ./starship.nix
   ];
 
   home.stateVersion = "24.11";
   programs.home-manager.enable = true;
   nixpkgs.config.allowUnfree = true;
+
+  fonts.fontconfig.enable = true;
+  services.poweralertd.enable = true;
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
