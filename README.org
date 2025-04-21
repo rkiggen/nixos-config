@@ -1,9 +1,29 @@
 * Introduction
 
-In this document I describe my way of working (installing & updating) with NixOS.
+In this document I describe my way of working (installing & updating) with NixOS,
+which is the result of many iterations.
+
+Currently I have a setup that works for me, where I perform the initial installation and configuration of my machines
+via =flakes= (_without_ the use of =home-manager=) and all other programs are mainly configured via their dotfiles and
+through home-manager. Why? Because I like to change and test my configurations on the fly without the need of rebuilding
+my entire system.
+
+So if you are like me, you can use this configuration and make the necessary changes.
+
+For managing your dotfiles you have several options:
+1. either use =stow=
+2. or configure everything in nix by specifying the `source` property of a config file like so:  
+#+begin_example
+
+#     to find the config file       Where the config file is located relative to this .nix file
+#                    |                             |
+#                    V                             V
+xdg.configFile."wezterm/wezterm.lua".source = ./wezterm.lua;
+
+#+end_example
 
 
-* Installing NixOS
+* Installing NixOS (clean install)
 
 I tend to install new pc's with the bare minimum config (with some sensible defaults) I need 
 and once I've booted into the persisted system, I apply the config I want. This approach allows
