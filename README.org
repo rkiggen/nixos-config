@@ -1,16 +1,12 @@
 * Introduction
 
-In this document I describe my way of working (installing & updating) with NixOS,
-which is the result of many iterations.
+In this document I describe my way of working (installing & updating) with NixOS, which is the result of many
+iterations. The goal of my configuration is to create setup which allows me to define all my devices.
 
-Currently I have a setup that works for me, where I perform the initial installation and configuration of my machines
-via =flakes= (_without_ the use of =home-manager=) and all other programs are mainly configured via their dotfiles and
-through home-manager. Why? Because I like to change and test my configurations on the fly without the need of rebuilding
-my entire system.
+Currently I only use flakes in a modular fashion and I have dropped home-manager because I like to change and test my
+configurations on the fly without the need to rebuild my entire system!
 
-So if you are like me, you can use this configuration and make the necessary changes.
-
-For managing your dotfiles you have several options:
+Which means that most applications are configured via their dotfiles. You have a few options to accomplish this in Nix:
 1. either use =stow=
 2. or configure everything in nix by specifying the `source` property of a config file like so:  
 #+begin_example
@@ -22,6 +18,9 @@ xdg.configFile."wezterm/wezterm.lua".source = ./wezterm.lua;
 
 #+end_example
 
+If you want to learn more about NixOS and the way you can install & configure it, I can recommend the following
+resource:
+- [[https://nixos.wiki/wiki/Wil_T_Nix_Guides][Will T Nix Guides]]  by Will Taylor
 
 * Installing NixOS (clean install)
 
@@ -29,11 +28,11 @@ I tend to install new pc's with the bare minimum config (with some sensible defa
 and once I've booted into the persisted system, I apply the config I want. This approach allows
 me to rollback to a working version.
 
-Summary steps:
+_Summary steps:_
 1. After booting into the installer, I launch a partition editor and partition my drives;
 2. I mount the necessary partitions as =/mnt= and =/mnt/boot= (according to the NixOS installation manual;
 3. I run =sudo nixos-generate-config --root .mnt= which creates 2 files: config & hardware config;
-4. I edit these file to configure some basic things/sensible default, like:
+4. I edit these file to configure some basic/sensible defaults, like:
  - creating a user
  - setting a hostname
  - have some default applications like: browser, text editor
@@ -45,8 +44,8 @@ to fallback on sice otherwise I'd have to redo the entire thing all over again.
 
 ** Easy initial configuration
 
-NixOS provides good support for the Xfce desktop environment out-of-the-box, but the defaults are minimal. The files in the default folder provide 
-a more complete experience, including a suite of basic software and plugins.
+NixOS provides good support for the Xfce desktop environment out-of-the-box, but the defaults are minimal. The files in
+the default folder provide  a more complete experience, including a suite of basic software and plugins.
 
 You can change the generated configuration.nix file by including the desired .nix files from the =defaults= folder.
 The nix.nix file under the defaults folder is for instance already setup to enable flakes support.
@@ -71,9 +70,12 @@ The nix.nix file under the defaults folder is for instance already setup to enab
 :link: https://nixos-and-flakes.thiscute.world/nixos-with-flakes/other-useful-tips
 :end:
 
-NixOS configuration, being a set of text files, is well-suited for version control with Git. This allows easy rollback to a previous version in case of issues.
+NixOS configuration, being a set of text files, is well-suited for version control with Git. This allows easy rollback
+to a previous version in case of issues. 
 
-By default, NixOS places the configuration in =/etc/nixos=, which requires root permissions for modification, making it inconvenient for daily use. Thankfully, Flakes can help solve this problem by allowing you to place your flake anywhere you prefer.
+By default, NixOS places the configuration in =/etc/nixos=, which requires root permissions for modification, making it
+inconvenient for daily use. Thankfully, Flakes can help solve this problem by allowing you to place your flake anywhere
+you prefer. 
 
 For example, you can place your flake in ~/nixos-config and create a symbolic link in /etc/nixos as follows:
 
@@ -85,6 +87,76 @@ sudo ln -s ~/nixos-config /etc/nixos
 sudo nixos-rebuild switch
 #+end_src
 
+* Maintaining your system
+
+** Update your system
+Make the necessary changes to your modules and execute:
+
+#+begin_src shell
+host-rebuild.sh
+#+end_sr
+
+** Clean up your system
+You can configure NixOS to automatically clean up your system, see the section about storage optimization for more info.
+
+*** Delete old generations
+
+First, list all generations:
+
+#+begin_src shell
+   sudo nix-env --list-generations
+   # or following command does not work the use profile options
+   sudo nix-env --list-generations --profile /nix/var/nix/profiles/system  
+#+end_src
+
+To remove the unused generations, you run the =nix-env= command for specific profile with the =delete-generations= option.
+The =delete-generations= option accept and ID as an argument. In this argument, you pass one or multiple IDs to delete
+the old generations in NixOS:
+
+#+begin_src shell
+  sudo nix-env --delete-generations 10 
+  # or
+  sudo nix-env --delete-generations 10 11 12 13 14 15 16 17 18 19 20 21
+
+  # or following command does not work the use profile options
+
+  sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations 10 
+  # or 
+  sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations 10 11 12 13 14 15 16 17 18 19 20 21  
+#+end_src
+
+Afterwards don’t forget to run the garbage collector:
+
+#+begin_src shell
+  sudo nix-store --gc 
+#+end_src
+
+There is also a convenient little utility called =nix-collect-garbage= which when invoked with the -d (–delete-old)
+switch deletes all old generations of all profiles in /nix/var/nix/profiles. So:
+
+#+begin_src shell
+  sudo nix-collect-garbage -d
+#+end_src
+
+is a quick and easy way to clean up your system.
+
+*** Remove obsolete boot entries
+
+First, run the garbage collection for your system, the rebuild the bootloader.
+
+Run the garbage collector:
+#+begin_src shell
+  # remove everything older than 14 days
+  sudo nix-collect-garbage --delete-older-than 14d
+  # or remove all old generations (everything but the current generation)
+  sudo nix-collect-garbage -d
+#+end_src
+
+Rebuild the bootloader:
+
+#+begin_src shell
+   sudo nixos-rebuild boot --flake . 
+#+end_src
 
 * Appendix
 
@@ -95,7 +167,8 @@ sudo nixos-rebuild switch
 :link: https://nixos-and-flakes.thiscute.world/nixos-with-flakes/nixos-with-flakes-enabled
 :end:
 
-Currently, Flakes is still an experimental feature and not enabled by default. We need to manually modify the /etc/nixos/configuration.nix file to enable the Flakes feature and the accompanying new nix command-line tool:
+Currently, Flakes is still an experimental feature and not enabled by default. We need to manually modify the
+/etc/nixos/configuration.nix file to enable the Flakes feature and the accompanying new nix command-line tool: 
 
 #+begin_example
 { config, pkgs, ... }:
@@ -125,9 +198,12 @@ Currently, Flakes is still an experimental feature and not enabled by default. W
 #+end_example
 
 
-After making these changes, run =sudo nixos-rebuild switch= to apply the modifications. Then, you can use the Flakes feature to manage your system configuration.
+After making these changes, run =sudo nixos-rebuild switch= to apply the modifications. Then, you can use the Flakes
+feature to manage your system configuration. 
 
-The new nix command-line tool also offers some convenient features. For example, you can now use the =nix repl= command to open a nix interactive environment. If you're interested, you can use it to review and test all the Nix syntax you've learned before.
+The new nix command-line tool also offers some convenient features. For example, you can now use the =nix repl= command
+to open a nix interactive environment. If you're interested, you can use it to review and test all the Nix syntax you've
+learned before. 
 
 *** Switching System Configuration to =flake.nix=
 :properties:
@@ -135,3 +211,5 @@ The new nix command-line tool also offers some convenient features. For example,
 :end:
 
 To be written out!
+
+
