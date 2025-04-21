@@ -8,8 +8,6 @@
     ./brave.nix
     ./tor-browser.nix
     ./emacs.nix
-    ./wezterm.nix
-    ./zsh.nix
     ./cheat-sheets.nix
     ./direnv.nix
     ./fonts.nix
@@ -17,6 +15,8 @@
     ./git.nix
     # ./gpg.nix
     ./yazi.nix
+    ./wezterm.nix
+    ./zsh.nix
     ./starship.nix
   ];
 

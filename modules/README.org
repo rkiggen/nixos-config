@@ -1,0 +1,19 @@
+* Introduction
+
+We start with some general modules for installing and configuring stuff and each time a specific application needs elaborate configuration or dependencies (other applications) we'll create a separate nix module for it.
+
+* Modules
+
+Currently the following general modules are available:
+- common.nix:  this module is used for specifying common settings and installing the bare minimum of tools;
+- xfce.nix: use this module if you want to setup the XFCE desktop environment, and installs the necessary xfce and gtk applications;
+- graphical.nix: use this module to manage all graphical (desktop) applications;
+- xorg.nix: via this module you can manage all X11 specific console applications;
+- console.nix: this module declares all (non X11 specific) console applications;
+
+Below you can find the specific modules:
+- yazi.nix
+
+
+
+

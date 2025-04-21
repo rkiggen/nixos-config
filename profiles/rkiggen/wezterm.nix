@@ -1,4 +1,4 @@
-{ nixpkgs, ...}: {
+{ config, nixpkgs, ...}: {
 
 #  home.packages = [
 #    nixpkgs.from.stable.wezterm
@@ -8,8 +8,8 @@
   	enable = true;
 	enableZshIntegration = true;
 	enableBashIntegration = true;
-	extraConfig = builtins.readFile ./dotfiles/wezterm/wezterm.lua;  # use this line instead of the home.file."config" line when you want to change your wezterm config without rebuilding !
   };
-
-  # home.file.".config/wezterm/wezterm.lua".source = ./wezterm.lua;
+  
+  xdg.configFile."wezterm/wezterm.lua".enable = false; # do not autogenerate wezterm.lua
+  home.file.".config/wezterm/wezterm.lua".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/wezterm/wezterm.lua";
 }
