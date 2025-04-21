@@ -76,7 +76,7 @@
         # Set the default editor to neovim
         environment.variables = {
             EDITOR = "nvim";
-            BROWSER = "firefox"
+            BROWSER = "firefox";
         };
 
 
