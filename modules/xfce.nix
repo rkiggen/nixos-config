@@ -83,7 +83,7 @@
             nixpkgs.from.stable.pavucontrol	        # Pulse Audio Volume Control
 
             nixpkgs.from.stable.evince			    # GNOME's document viewer
-            nixpgks.from.stable.libqalculate		# Adavanced calculator library
+            nixpkgs.from.stable.libqalculate		# Adavanced calculator library
             nixpkgs.from.stable.qalculate-gtk       # Ultimate desktop calculator
 
             # Xfce specific packages
