@@ -9,6 +9,7 @@
         ../../modules/xorg.nix
         ../../modules/graphical.nix
         ../../modules/console.nix
+        ../../modules/firefox.nix
         ../../modules/yazi.nix
         ./hardware-configuration.nix
     ];
