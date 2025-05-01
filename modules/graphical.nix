@@ -18,7 +18,9 @@
             nixpkgs.from.stable.masterpdfeditor					    # pdf editor
             nixpkgs.from.stable.texlive.combined.scheme-full        # latex environment
             nixpkgs.from.stable.zathura                             # pdf viewer
-
+            
+            # drawing / image manipulation
+            nixpkgs.from.stable.pinta                               # drawing/editing program modeled after Paint.NET
             # printing & scanning
             nixpkgs.from.stable.simple-scan
 
