@@ -110,6 +110,11 @@
             nixpkgs.from.stable.xfce.xfce4-xkb-plugin
             nixpkgs.from.stable.xfce.xfdashboard
 
+            # Theming
+            nixpkgs.from.stable.arc-theme           # Flat theme with transparent elements for GTK 3, GTK 2 and Gnome Shell
+            nixpkgs.from.stable.dracula-icon-theme  # dracula icon theme (dark)
+            nixpkgs.from.stable..catppuccin-cursors # Catppuccin cursor theme based on Volantes
+
         ];
     };
 }
