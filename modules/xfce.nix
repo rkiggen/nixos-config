@@ -69,9 +69,13 @@
                 enable = true;
                 plugins = with pkgs.xfce; [
                     thunar-archive-plugin
-                        thunar-media-tags-plugin
-                        thunar-volman
+                    thunar-media-tags-plugin
+                    thunar-volman
                 ];
+            };
+            # enable file-rolle: an archive manager for GNOME
+            file-roller = {
+                enable = true;
             };
         };
 
