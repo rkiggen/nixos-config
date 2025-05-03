@@ -3,9 +3,6 @@
 { inputs, pkgs, nixpkgs, ... }: {
 
     config = {
-        programs.rofi = {
-            enable = true;
-        };
 
         environment.systemPackages = [
 
