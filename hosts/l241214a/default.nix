@@ -10,6 +10,7 @@
         ../../modules/graphical.nix
         ../../modules/console.nix
         ../../modules/firefox.nix
+        ../../modules/rofi.nix
         ../../modules/yazi.nix
         ./hardware-configuration.nix
     ];
