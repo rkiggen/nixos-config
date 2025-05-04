@@ -27,7 +27,10 @@
             # security
             nixpkgs.from.stable.keepassxc                           # password manager
             nixpkgs.from.stable.veracrypt                           # file encryption
-            
+
+            # synchronization
+            nixpkgs.from.stable.nextcloud-client                    # Desktop sync client for Nextcloud
+
             # terminals
             nixpkgs.from.stable.wezterm                             # gpu accelerated cross-platform terminal emulator and multiplexer  
 
