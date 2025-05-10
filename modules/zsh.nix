@@ -5,7 +5,7 @@
     config = {
         programs.zsh = {
             enable = true;
-            enableCompletions = true;
+            enableCompletion = true;
             autosuggestions.enable = true;
             syntaxHighlighting.enable = true;
 
