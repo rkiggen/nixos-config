@@ -9,9 +9,10 @@
         ../../modules/xorg.nix
         ../../modules/graphical.nix
         ../../modules/console.nix
-        ../../modules/zsh.nix
         ../../modules/firefox.nix
         ../../modules/rofi.nix
+        ../../modules/zsh.nix
+        ../../modules/startship.nix
         ../../modules/yazi.nix
         ./hardware-configuration.nix
     ];
