@@ -3,6 +3,10 @@
 { inputs, pkgs, nixpkgs, ... }: {
 
     config = {
+        # for global user
+        users.defaultUserShell = pkgs.zsh; 
+
+        # enable zsh
         programs.zsh = {
             enable = true;
             enableCompletion = true;
@@ -16,6 +20,8 @@
             histSize = 10000;
         };
 
+        # Prevent the new user dialog in zsh
+        system.userActivationScripts.zshrc = "touch .zshrc";
     };
 }
 
