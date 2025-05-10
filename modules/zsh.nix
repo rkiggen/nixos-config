@@ -1,4 +1,4 @@
-i# Yazi cli file manager
+# Z shell
 
 { inputs, pkgs, nixpkgs, ... }: {
 
