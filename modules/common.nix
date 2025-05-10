@@ -4,8 +4,6 @@
 
     config = {
 
-        programs.zsh.enable = true;
-
         networking = {
             hostName = hostName;
             networkmanager.enable = true;
