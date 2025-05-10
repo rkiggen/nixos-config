@@ -27,7 +27,7 @@
         fonts.packages = [
             nixpkgs.from.stable.corefonts
             nixpkgs.from.stable.liberation_ttf
-            (nixpkgs.from.stable.nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "NerdFontsSymbolsOnly"]; })
+            (nixpkgs.from.stable.nerdfonts.override { fonts = [ "JetBrainsMono" "FiraCode" "DroidSansMono" "NerdFontsSymbolsOnly"]; })
             nixpkgs.from.stable.noto-fonts
             nixpkgs.from.stable.noto-fonts-cjk-sans
             nixpkgs.from.stable.noto-fonts-emoji
