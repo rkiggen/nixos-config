@@ -1,6 +1,6 @@
 # Common configuration applied to all hosts
 
-{ inputs, pkgs, nixpkgs, userName, hostName, ... }: {
+{ inputs, pkgs, nixpkgs, userName, ... }: {
     config = {
 
         #########################################################
@@ -10,19 +10,19 @@
         # boot.kernelModules = [ "kvm-amd" "kvm-intel" ];
 
         # enable libvirtd
-        virtualization.libvirtd.enable = true;
+        virtualisation.libvirtd.enable = true;
 
         # install virt-manager
         programs.virt-manager.enable = true;
 
         # add your user to the libvirtd group 
-        users.groups.libvirtd.members = [users.users.${userName}];
+        users.groups.libvirtd.members = [ "rkiggen" ];
         virtualisation.spiceUSBRedirection.enable = true; 
 
         # Containerization: PODMAN
 
-        virtualization.containers.enable = true;
-        virtualization = {
+        virtualisation.containers.enable = true;
+        virtualisation = {
             podman = {
                 enable = true;
 
