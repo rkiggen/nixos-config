@@ -4,7 +4,7 @@
 
     config = {
         environment.systemPackages = [
-            nixpgks.from.stable.emacs
+            nixpkgs.from.stable.emacs
             nixpkgs.from.stable.texlive.combined.scheme-full        # latex environment
         ];
 
