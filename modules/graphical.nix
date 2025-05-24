@@ -17,7 +17,6 @@
             nixpkgs.from.stable.evince
             nixpkgs.from.stable.libreoffice							# office suite (microsoft office alternative)
             nixpkgs.from.stable.masterpdfeditor					    # pdf editor
-            nixpkgs.from.stable.texlive.combined.scheme-full        # latex environment
             nixpkgs.from.stable.zathura                             # pdf viewer
             
             # drawing / image manipulation

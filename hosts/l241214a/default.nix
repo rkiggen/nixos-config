@@ -15,6 +15,7 @@
         ../../modules/zsh.nix
         ../../modules/starship.nix
         ../../modules/yazi.nix
+        ../../modules/emacs.nix
         ../../modules/virtualization.nix
         ./hardware-configuration.nix
     ];
