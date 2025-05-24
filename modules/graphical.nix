@@ -10,6 +10,7 @@
             # development
             nixpkgs.for.rider.jetbrains.rider                       # jetbrains rider ide 
             nixpkgs.from.stable.vscode                              # visual studio code (development ide)
+            nixpkgs.from.stable.direnv                              # shell extension for managing your environment 
 
             # documents
             nixpkgs.from.stable.calibre							    # ebook reader
@@ -21,6 +22,7 @@
             
             # drawing / image manipulation
             nixpkgs.from.stable.pinta                               # drawing/editing program modeled after Paint.NET
+            
             # printing & scanning
             nixpkgs.from.stable.simple-scan
 
