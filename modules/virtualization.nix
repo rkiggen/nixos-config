@@ -16,10 +16,9 @@
         programs.virt-manager.enable = true;
 
         # add your user to the libvirtd group 
-        users.groups.libvirtd.members = [${userName}];
+        users.groups.libvirtd.members = [users.users.${userName}];
         virtualisation.spiceUSBRedirection.enable = true; 
 
-        #########################################################
         # Containerization: PODMAN
 
         virtualization.containers.enable = true;
