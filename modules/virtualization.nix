@@ -36,10 +36,11 @@
 
         # Useful other development tools 
         environment.systemPackages = [
-            nixpkgs.from.stable.dive  # look into docker image layers
-            nixpkgs.from.stable.podman-tui # status of containers in the terminal
-            # nixpkgs.from.stable.docker-compose # start group of containers for dev
-            nixpkgs.from.stable.podman-compose # start group of containers for dev    
+            nixpkgs.from.stable.dive                # look into docker image layers
+            nixpkgs.from.stable.podman-tui          # status of containers in the terminal
+            # nixpkgs.from.stable.docker-compose    # start group of containers for dev
+            nixpkgs.from.stable.podman-compose      # start group of containers for dev    
+            nixpkgs.from.stable.podlet              # generate Podman Quadlet files from a Podman command, compose file, or existing object
         ];
    };
 }
