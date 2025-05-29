@@ -45,7 +45,7 @@
             ## so it must be installed first
             nixpkgs.from.stable.git	
             nixpkgs.from.stable.delta           # syntax highlighting pager for git
-            
+            nixpkgs.from.stable.chezmoi         # manage your dotfiles across multiple machines, securely            
             nixpkgs.from.stable.neovim          # neovim editor
             nixpkgs.from.stable.wget
             nixpkgs.from.stable.pciutils	    # collection of programs for inspecting and manipulating configuration of pci devices
