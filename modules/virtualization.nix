@@ -1,4 +1,5 @@
-# Common configuration applied to all hosts
+# Virtualization configuration
+# enable QEMU virtualization & podman containerization
 
 { inputs, pkgs, nixpkgs, userName, ... }: {
     config = {
