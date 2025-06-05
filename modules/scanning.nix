@@ -35,10 +35,7 @@
         #    ENV{DEVNAME}!="", ENV{libsane_matched}=="yes", RUN+="${pkgs.acl}/bin/setfacl -m g:scanner:rw $env{DEVNAME}"
         #'';
 
-        nixpkgs.config.permittedInsecurePackages = [
-            "dotnet-sdk-6.0.428"
-        ];
-        
+
         # Enable wireless scanning via airscan
         environment.systemPackages = [
             ## Backends
@@ -47,7 +44,7 @@
 
             ## Frontends
             nixpkgs.from.stable.simple-scan
-            nixpkgs.from.stable.naps2
+            #nixpkgs.from.stable.naps2
         ];
     };
 }
