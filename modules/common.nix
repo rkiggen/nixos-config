@@ -8,10 +8,30 @@
             hostName = hostName;
             networkmanager.enable = true;
             enableIPv6 = false;
+
+            hosts = {
+                # Add Canon printer
+                "10.48.6.66" = [ "Canona9afc7.local" "Canona9afc7" ];
+            };
+
+            firewall = {
+                allowedTCPPorts = [ 631 ];
+                allowedUDPPorts = [ 631 ];               
+            };
         };
 
         # Enable CUPS to print documents
-        services.printing.enable = true;
+        services.printing = {
+            enable = true;
+            drivers = [ pkgs.canon-cups-ufr2 ]; # Canon i-Sensys MFC645cx
+            browsing = true;
+            defaultShared = true;
+            listenAddress = [ "*:631" ];
+            allowFrom = [ "all" ];
+            extraConf = ''
+                DefaultPaperSize A4
+            '';
+        };
 
         services.avahi = {
             enable = true;
@@ -25,6 +45,21 @@
                 userServices = true;
             };
         };
+
+       # hardware.printers = {
+       #     ensurePrinters = [
+       #         {
+       #             name = "Canon_MFC645cx";
+       #             location = "Home";
+       #             deviceUri = "usb://Dell/1250c%20Color%20Printer?serial=YNP023240";
+       #             model = "Dell-1250c.ppd.gz";
+       #             ppdOptions = {
+       #                 PageSize = "A4";
+       #             };
+       #         }
+       #     ];
+       #     ensureDefaultPrinter = "Canon_MFC645cx";
+       # };
 
         users.users.${userName} = {
             isNormalUser = true;
