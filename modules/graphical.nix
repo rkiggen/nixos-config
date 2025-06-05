@@ -22,9 +22,6 @@
             # drawing / image manipulation
             nixpkgs.from.stable.pinta                               # drawing/editing program modeled after Paint.NET
             
-            # printing & scanning
-            nixpkgs.from.stable.simple-scan
-
             # security
             nixpkgs.from.stable.keepassxc                           # password manager
             nixpkgs.from.stable.veracrypt                           # file encryption

@@ -10,8 +10,8 @@
             enableIPv6 = false;
 
             hosts = {
-                # Add Canon printer
-                "10.48.6.66" = [ "Canona9afc7.local" "Canona9afc7" ];
+                "10.48.6.66" = [ "Canona9afc7.local" "Canona9afc7" ]; # Canon MFC printer
+                "10.48.5.2" = [ "BR5CF370C7578A.local" "BR5CF370C7578A" ]; # Brother document scanner
             };
         };
 
