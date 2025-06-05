@@ -26,7 +26,7 @@
             drivers = [ pkgs.canon-cups-ufr2 ]; # Canon i-Sensys MFC645cx
             browsing = true;
             defaultShared = true;
-            listenAddress = [ "*:631" ];
+            listenAddresses = [ "*:631" ];
             allowFrom = [ "all" ];
             extraConf = ''
                 DefaultPaperSize A4
