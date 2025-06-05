@@ -13,11 +13,6 @@
                 # Add Canon printer
                 "10.48.6.66" = [ "Canona9afc7.local" "Canona9afc7" ];
             };
-
-            firewall = {
-                allowedTCPPorts = [ 631 ];
-                allowedUDPPorts = [ 631 ];               
-            };
         };
 
         # Enable CUPS to print documents
@@ -25,9 +20,6 @@
             enable = true;
             drivers = [ pkgs.canon-cups-ufr2 ]; # Canon i-Sensys MFC645cx
             browsing = true;
-            defaultShared = true;
-            listenAddresses = [ "*:631" ];
-            allowFrom = [ "all" ];
             extraConf = ''
                 DefaultPaperSize A4
             '';
