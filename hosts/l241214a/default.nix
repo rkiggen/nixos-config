@@ -6,6 +6,8 @@
 
     imports = [ 
         ../../modules/xfce.nix
+        ../../modules/printing.nix
+        ../../modules/scanning.nix
         ../../modules/xorg.nix
         ../../modules/graphical.nix
         ../../modules/console.nix
@@ -36,9 +38,6 @@
     hardware.bluetooth.enable = true;
     services.blueman.enable = true;
 
-    # Enable CUPS to print documents
-    services.printing.enable = true;
-
     # Enable (Thunder)Bolt support
     services.hardware.bolt.enable = true;
 
@@ -53,18 +52,6 @@
             support32Bit = true;
         };
         pulse.enable = true;
-    };
-
-    # Enable avahi for (wireless) device (printers, scanners, ...) discovery
-    services.avahi = {
-        enable = true;
-        nssmdns4 = true;
-        openFirewall = true;
-        publish = {                               # Needed for detecting the scanner
-            enable = true;
-            addresses = true;
-            userServices = true;
-        };
     };
 
     # Copy the NixOS configuration file and link it from the resulting system
