@@ -10,41 +10,47 @@
         # Enables support for SANE scanners
         hardware.sane = {
             enable = true;
-            extraBackends = [ nixpkgs.from.stable.brscan5 ];
+            extraBackends = [ 
+                nixpkgs.from.stable.sane-airscan
+                nixpkgs.from.stable.brscan5 
+            ];
             brscan5 = {
                 enable = true;
                 netDevices = {
-                    office = { model = "ADS-1700W"; ip = "10.48.5.2"; };
+                    brother_ads1700w = { model = "ADS-1700W"; ip = "10.48.5.2"; };
                 };
             };
+            openFirewall = true;
+            netConf = "10.48.6.66";
         };
 
-        # Enable saned network daemon for remote connection to scanners
-        services.saned = {
-            enable = true;
-            extraConfig = ''
-                10.48.5.0/24
-            '';
+        # Allow discovery of Canon scanners 
+        # Discovery of Canon scanners works via multicast. 
+        # SANE sends BJNP discovery messages from all local addresses to ff02::1, UDP port 8612. 
+        # Scanners receiving the message respond via unicast UDP.
+        networking.firewall = {
+            allowedUDPPorts = [ 8612 ];
         };
 
         services.udev.packages = [ 
-            nixpkgs.from.stable.brscan5
+            nixpkgs.from.stable.sane-airscan 
+            nixpkgs.from.stable.brscan5 
         ];
 
-        #services.udev.extraRules = ''
-        #    ENV{DEVNAME}!="", ENV{libsane_matched}=="yes", RUN+="${pkgs.acl}/bin/setfacl -m g:scanner:rw $env{DEVNAME}"
+        #environment.etc."sane.d/airscan.conf".text = ''
+        #    [devices]
+        #    Canon@Home = http://10.48.6.66:443/eSCL/, eSCL
         #'';
-
 
         # Enable wireless scanning via airscan
         environment.systemPackages = [
             ## Backends
-            #nixpkgs.from.stable.sane-airscan       # Scanner Access Now Easy - Apple AirScan (eSCL) driver
-            nixpkgs.from.stable.brscan5             # Brother brscan5 sane backend driver
+            nixpkgs.from.stable.sane-airscan    # Scanner Access Now Easy - Apple AirScan (eSCL) driver
+            nixpkgs.from.stable.brscan5         # Brother brscan5 sane backend driver
+            nixpkgs.from.stable.dsseries
 
             ## Frontends
             nixpkgs.from.stable.simple-scan
-            #nixpkgs.from.stable.naps2
         ];
     };
 }
