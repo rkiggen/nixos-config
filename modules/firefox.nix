@@ -6,6 +6,7 @@
 
         programs.firefox = {
             enable = true;
+            package = nixpkgs.from.stable.firefox-esr;
             policies = {
                 DisableTelemetry = true;
                 DisableFirefoxStudies = true;
@@ -44,11 +45,11 @@
             };
         };
 
-        environment.systemPackages = [
-
-            nixpkgs.from.stable.firefox             # firefox
-
-        ];
+        #environment.systemPackages = [
+        #
+        #    nixpkgs.from.stable.firefox-esr             # firefox
+        #
+        #];
 
     };
 }
