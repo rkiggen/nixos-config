@@ -14,6 +14,7 @@
 
             # documents
             nixpkgs.from.stable.calibre							    # ebook reader
+            nixpkgs.from.stable.foliate							    # ebook reader
             nixpkgs.from.stable.evince
             nixpkgs.from.stable.libreoffice							# office suite (microsoft office alternative)
             nixpkgs.from.stable.masterpdfeditor					    # pdf editor

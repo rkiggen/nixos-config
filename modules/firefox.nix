@@ -45,11 +45,5 @@
             };
         };
 
-        #environment.systemPackages = [
-        #
-        #    nixpkgs.from.stable.firefox-esr             # firefox
-        #
-        #];
-
     };
 }
