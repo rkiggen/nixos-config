@@ -6,41 +6,124 @@ iterations. The goal of my configuration is to create setup which allows me to d
 Currently I only use flakes in a modular fashion and I have dropped home-manager because I like to change and test my
 configurations on the fly without the need to rebuild my entire system!
 
-Which means that most applications are configured via their dotfiles. You have a few options to accomplish this in Nix:
-1. either use =stow=
-2. or configure everything in nix by specifying the `source` property of a config file like so:  
-#+begin_example
+Which means that most applications are configured via their dotfiles, and I've left the management of my .dotfiles out
+of Nix entirely and opted to work with a dotfile manager. Since I work on different OS'es throughout the day this has
+the added benefit that I can reuse my dotfiles across all the operating systems I use.
 
-#     to find the config file       Where the config file is located relative to this .nix file
-#                    |                             |
-#                    V                             V
-xdg.configFile."wezterm/wezterm.lua".source = ./wezterm.lua;
-
-#+end_example
+The dotfile manager I'm currently using is [[https://www.chezmoi.io/][chezmoi]].
 
 If you want to learn more about NixOS and the way you can install & configure it, I can recommend the following
-resource:
-- [[https://nixos.wiki/wiki/Wil_T_Nix_Guides][Will T Nix Guides]]  by Will Taylor
+resource: [[https://nixos.wiki/wiki/Wil_T_Nix_Guides][Will T Nix Guides]]  by Will Taylor,  and you should also read the NixOS Installation Guide:
+https://nixos.wiki/wiki/NixOS_Installation_Guide
 
 * Installing NixOS (clean install)
 
-I tend to install new pc's with the bare minimum config (with some sensible defaults) I need 
-and once I've booted into the persisted system, I apply the config I want. This approach allows
+I tend to install new pc's with the bare minimum config (and some sensible defaults) I need. 
+And once I've booted into the persisted system, I apply the config I want. This approach allows
 me to rollback to a working version.
 
 _Summary steps:_
-1. After booting into the installer, I launch a partition editor and partition my drives;
-2. I mount the necessary partitions as =/mnt= and =/mnt/boot= (according to the NixOS installation manual;
-3. I run =sudo nixos-generate-config --root .mnt= which creates 2 files: config & hardware config;
-4. I edit these file to configure some basic/sensible defaults, like:
- - creating a user
- - setting a hostname
- - have some default applications like: browser, text editor
-5. Once done and save, I run =sudo nixs-install --root /mnt= and wait;
-6. Reboot into my new system
+1. Create your installation medium;
+2. After booting into the installer, I launch a partition editor and partition my drives;
+3. I mount the necessary partitions as =/mnt= and =/mnt/boot= (according to the NixOS installation manual;
+4. I run =sudo nixos-generate-config --root .mnt= which creates 2 files: config & hardware config;
+5. I edit these file to configure some basic/sensible defaults, like:
+   - creating a user
+   - setting a hostname
+   - have some default applications like: browser, text editor
+6. Once done and save, I run =sudo nixs-install --root /mnt= and wait;
+7. Reboot into my new system and migrate my config to flakes;
 
 Working this way means I have to apply my personal config later, but it gives me that first persistent generation
 to fallback on sice otherwise I'd have to redo the entire thing all over again.
+
+
+** Step 1 - Prepare installation medium
+
+Download one of the [[https://nixos.org/download.html][NixOS iso images]] from the NixOS website, I tend to favour the (non-graphical) =minimal ISO image=.
+
+Next I'll prepare a usb flash drive with Ventoy and copy the NixOS iso image onto it. And after that you can boot up the
+NixOS installer.
+
+Before you boot the installer, make sure you have:
+- Disabled Secure Boot Control
+- Disabled USB legacy boot
+
+** Step 2 - Partitioning
+
+After booting the installer, the first thing you need to do is to identify what type of firmware your computer uses:
+either UEFI or legacy BIOS and then choose the appropriate partioning scheme for that firmware.
+
+In Linux (and in the NixOS shell) you can use the following command to find out which one you are using:
+
+#+begin_src
+$ [ -d /sys/firmware/efi ] && echo UEFI || echo BIOS
+#+end_src
+
+Create at least 2 partitions one boot partition and one root partition, the boot partition will either be an ext4
+partition (legacy BIOS) or a ESP/fat partition (UEFI) whereas the root partition will be a LVM (8300 Linux LVM)
+partition (which we can encrypt for additional security).
+
+Since mosts computers use UEFI nowadays I'll write out the partitioning setup for a UEFI system.
+
+Create a 500mb EFI boot partition (=/dev/sda1=) and the rest will be our nd the rest will be our LUKS encrypted physical
+volume for LVM (=/dev/sda2=).
+
+#+begin_src
+$ gdisk /dev/sda
+#+end_src
+
+- =o= (create new empty partition table)
+- =n= (add partition, 500M, type ef00 EFI)
+- =n= (add partition, remaining space, type 8300 Linux LVM)
+- =w= (write partition table and exit)
+
+Setup the encrypted LUKS partition and open it:
+
+#+begin_src
+$  cryptsetup luksFormat /dev/sda2  #encrypt the partition with luks
+$  cryptsetup luksOpen /dev/sda2 enc-pv # decrypt the partition to a device name sda2-enc
+#+end_src
+
+Now we are ready to add our encrypted volume to LVM:
+
+#+begin_src
+$ pvcreate /dev/mapper/sda2-enc # add our encrypted partition as physical volume to LVM
+$ vgcreate vg-nixos /dev/mapper/sda2-enc # add the physical volume to volumegroup vg-nixos
+$ lvcreate -L 8G -n lv-swap vg-nixos # setup a logical volume (8GB size) for swap purposes in vg-nixos
+$ lvcreate -l '100%FREE' -n lv-root vg-nixos # create a logical volume for your root (remaing size) in vg-nixos
+#+end_src
+
+Format the swap and root partitions (and label them!):
+
+#+begin_src
+$ mkswap -L swap /dev/vg-nixos/lv-swap
+$ mkfs.ext4 -L root /dev/vg-nixos/lv-root 
+#+end_src
+
+** Step 3 - Install NixOS
+
+We mount the partitions we just created under =/mnt= so we can install NixOS on them.
+
+#+begin_src
+$ mount /dev/vg_nixos/lv_root /mnt
+$ mkdir /mnt/boot
+$ mount /dev/sda1 /mnt/boot
+$ swapon /dev/vg_nixos/lv_swap
+#+end_src
+
+Configure WPA supplicant so we can use WIFI:
+
+#+begin_src
+$ cat > /etc/wpa_supplicant.conf
+network={
+  ssid="****"
+  psk="****"
+}
+^D
+$ systemctl start wpa_supplicant
+#+end_src
+
 
 ** Easy initial configuration
 
@@ -160,6 +243,16 @@ Rebuild the bootloader:
 
 * Appendix
 
+** Encrypted partitions
+
+If you want to encrypt multiple partitions, it is good to know that upon booting the decryption password for the first
+partition will also be used for decrypting all subsequent partitions. Which means that if you want to enter only one
+password for decryption you’ll need to encrypt all partitions with the same password.
+
+You can either choose to encrypt the partitions (or drives) first and them use those as physical volumes for LVM (LUKS +
+LVM or LVM on top of LUKS) or you can set up LVM first and encrypt the logical volums with LUKS later (LVM + LUKS or
+LUKS on top of LVM). I prefer to use LUKS + LVM.
+
 ** Using Flakes
 
 *** Enabling Flakes Support for NixOS
@@ -211,5 +304,6 @@ learned before.
 :end:
 
 To be written out!
+
 
 
