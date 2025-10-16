@@ -19,6 +19,7 @@
         ../../modules/yazi.nix
         ../../modules/emacs.nix
         ../../modules/virtualization.nix
+        ../../modules/wireguard.nix
         ./hardware-configuration.nix
     ];
 
