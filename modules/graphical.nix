@@ -22,11 +22,13 @@
             
             # drawing / image manipulation
             nixpkgs.from.stable.pinta                               # drawing/editing program modeled after Paint.NET
+            nixpkgs.from.stable.inkscape-with-extensions            # vector graphics editor
 
             # internet & email
             nixpkgs.from.stable.brave                               # privacy-oriented browser for desktop and laptop computers
             nixpkgs.from.stable.tor-browser                         # privacy-focused browser routing traffic through the Tor network
-
+            nixpkgs.from.stable.deluge                              # torrent client
+            
             # security
             nixpkgs.from.stable.keepassxc                           # password manager
             nixpkgs.from.stable.veracrypt                           # file encryption
