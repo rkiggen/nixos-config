@@ -9,7 +9,7 @@
         services.xserver.windowManager.i3 = {
             enable = true;
             package = pkgs.i3-gaps;
-            xtraPackages = with pkgs; [
+            extraPackages = with pkgs; [
                 i3status        # gives you the default i3 status bar
                 i3blocks-gaps   #if you are planning on using i3blocks over i3status
                 i3lock          #default i3 screen locker
