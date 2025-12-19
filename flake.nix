@@ -22,6 +22,8 @@
         nixpkgs-for-rider-l231028a.url = "github:nixos/nixpkgs/nixos-24.05"; # Rider 2023.1.2
         nixpkgs-for-rider-l241214a.url = "github:nixos/nixpkgs/nixos-25.05"; 
 
+        # Hardware modules (for Framework specific modules)
+        nixos-hardware.url = "github:nixos/nixos-hardware/master";
     };
 
     outputs = inputs: {
