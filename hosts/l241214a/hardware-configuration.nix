@@ -54,15 +54,6 @@
   hardware.wirelessRegulatoryDatabase = true;
   hardware.enableRedistributableFirmware = true;
   hardware.keyboard.qmk.enable = true;
-  hardware.pulseaudio.enable = false;
   hardware.bluetooth.enable = true;
- 
 
-    # https://wiki.archlinux.org/title/Framework_Laptop_13#WiFi/Bluetooth
-  
-  
-    services.hardware.bolt.enable = true;
-  services.power-profiles-daemon.enable = true;rdware.wirelessRegulatoryDatabase = true;
-  hardware.enableRedistributableFirmware = true; services.hardware.bolt.enable = true;
-  services.power-profiles-daemon.enable = true;
 }
