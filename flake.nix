@@ -3,15 +3,15 @@
 
     inputs = {
         # Nix library functions
-        nixpgks-for-lib.url = "github:nixos/nixpkgs/nixos-25.05";
+        nixpgks-for-lib.url = "github:nixos/nixpkgs/nixos-25.11";
 
         # NixOS
         nixpkgs-for-nixos-l231028a.url = "github:nixos/nixpkgs/nixos-24.05";
-        nixpkgs-for-nixos-l241214a.url = "github:nixos/nixpkgs/nixos-25.05";
+        nixpkgs-for-nixos-l241214a.url = "github:nixos/nixpkgs/nixos-25.11";
 
         # Stable, general purpose
         nixpkgs-from-stable-l231028a.url = "github:nixos/nixpkgs/nixos-24.05";
-        nixpkgs-from-stable-l241214a.url = "github:nixos/nixpkgs/nixos-25.05";
+        nixpkgs-from-stable-l241214a.url = "github:nixos/nixpkgs/nixos-25.11";
 
         # Unstable, general purpose
         nixpkgs-from-unstable-l231028a.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -20,7 +20,7 @@
         # Rider
         #nixpkgs-for-rider-l211008a.url = "https://github.com/NixOS/nixpkgs/archive/64c27498901....tar.gz"; # Rider 22.3.2 (unstable channel)
         nixpkgs-for-rider-l231028a.url = "github:nixos/nixpkgs/nixos-24.05"; # Rider 2023.1.2
-        nixpkgs-for-rider-l241214a.url = "github:nixos/nixpkgs/nixos-25.05"; 
+        nixpkgs-for-rider-l241214a.url = "github:nixos/nixpkgs/nixos-25.11"; 
 
         # Hardware modules (for Framework specific modules)
         nixos-hardware.url = "github:nixos/nixos-hardware/master";

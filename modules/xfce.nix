@@ -71,10 +71,6 @@
                     thunar-volman
                 ];
             };
-            # enable file-rolle: an archive manager for GNOME
-            file-roller = {
-                enable = true;
-            };
         };
 
         # List packages installed in system profile. To search, run:
@@ -83,7 +79,7 @@
             # Gtk specific packages
             nixpkgs.from.stable.blueman 		    # GTK based bluetooth manager
             nixpkgs.from.stable.pavucontrol	        # Pulse Audio Volume Control
-
+            nixpkgs.from.stable.file-roller         # Gnome Archive Manager
             nixpkgs.from.stable.evince			    # GNOME's document viewer
             nixpkgs.from.stable.libqalculate		# Adavanced calculator library
             nixpkgs.from.stable.qalculate-gtk       # Ultimate desktop calculator

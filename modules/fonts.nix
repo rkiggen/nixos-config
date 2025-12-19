@@ -9,7 +9,7 @@
             nixpkgs.from.stable.liberation_ttf
             nixpkgs.from.stable.noto-fonts
             nixpkgs.from.stable.noto-fonts-cjk-sans
-            nixpkgs.from.stable.noto-fonts-emoji
+            nixpkgs.from.stable.noto-fonts-color-emoji
             nixpkgs.from.stable.fira
             nixpkgs.from.stable.fira-code
             nixpkgs.from.stable.fira-code-symbols
@@ -19,9 +19,9 @@
             nixpkgs.from.stable.source-sans-pro
             nixpkgs.from.stable.source-serif-pro
             nixpkgs.from.stable.symbola
-            nixpkgs.from.stable.ubuntu_font_family
+            nixpkgs.from.stable.ubuntu-classic
             nixpkgs.from.stable.unifont
-            nixpkgs.from.stable.vistafonts           
+            nixpkgs.from.stable.vista-fonts           
         ];
 
         fonts.packages = [
@@ -33,7 +33,7 @@
             nixpkgs.from.stable.nerd-fonts.symbols-only
             nixpkgs.from.stable.noto-fonts
             nixpkgs.from.stable.noto-fonts-cjk-sans
-            nixpkgs.from.stable.noto-fonts-emoji
+            nixpkgs.from.stable.noto-fonts-color-emoji
             nixpkgs.from.stable.fira
             nixpkgs.from.stable.fira-code
             nixpkgs.from.stable.fira-code-symbols
@@ -43,9 +43,9 @@
             nixpkgs.from.stable.source-sans-pro
             nixpkgs.from.stable.source-serif-pro
             nixpkgs.from.stable.symbola
-            nixpkgs.from.stable.ubuntu_font_family
+            nixpkgs.from.stable.ubuntu-classic
             nixpkgs.from.stable.unifont
-            nixpkgs.from.stable.vistafonts  
+            nixpkgs.from.stable.vista-fonts  
         ];
 
 
