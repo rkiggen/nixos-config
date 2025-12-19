@@ -6,7 +6,7 @@
 
         programs.firefox = {
             enable = true;
-            package = nixpkgs.from.stable.firefox-esr;
+            # package = nixpkgs.from.stable.firefox-esr;
             policies = {
                 DisableTelemetry = true;
                 DisableFirefoxStudies = true;
@@ -33,15 +33,15 @@
                 # Then, download the XPI by filling it in to the install_url template, unzip it,
                 # run `jq .browser_specific_settings.gecko.id manifest.json` or
                 # `jq .applications.gecko.id manifest.json` to get the UUID
-                ExtensionSettings = {
-                    "*".installation_mode = "allowed"; # alternatives: "blocked", "force_installed" or "normal_installed"
+                #ExtensionSettings = {
+                #    "*".installation_mode = "allowed"; # alternatives: "blocked", "force_installed" or "normal_installed"
 
-                    # uBlock Origin
-                    "uBlock0@raymondhill.net" = {
-                        install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
-                        installation_mode = "force_installed";
-                    };
-                };
+                #    # uBlock Origin
+                #    "uBlock0@raymondhill.net" = {
+                #        install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+                #        installation_mode = "force_installed";
+                #    };
+                #};
             };
         };
 
