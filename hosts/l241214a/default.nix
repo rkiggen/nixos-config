@@ -6,6 +6,7 @@
 
     imports = [ 
         ../../modules/xfce.nix
+        ../../modules/i3.nix
         ../../modules/printing.nix
         ../../modules/scanning.nix
         ../../modules/xorg.nix

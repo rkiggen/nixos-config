@@ -21,7 +21,7 @@
         # X.Org server is the open-source implementation of the X Window System X11 display server
         # 
         # Window Manager:
-        # the window manager;s function is to manage open windows. Window management involves controlling
+        # the window manager's function is to manage open windows. Window management involves controlling
         # the size of windows and their positionsn(as requested by you or applications).
         # Some examples of window managers: Kwin (comes with KDE), Mutter (comes with GNOME), Xfwm (Xfce's window manager)
         # 
@@ -55,6 +55,7 @@
         };
 
         services.displayManager.defaultSession = "xfce";
+        # services.displayManager.defaultSession = "none+i3";
 
         programs = {
             dconf.enable = true;
