@@ -19,6 +19,8 @@
             nixpkgs.from.stable.lxappearance    # lightweight program for configuring the theme and fonts of gtk applications
             nixpkgs.from.stable.dunst           # lightweight and customizable notification daemon
             nixpkgs.from.stable.feh             # light-weight image viewer
+            nixpkgs.from.stable.lm_sensors      # tools for reading hardware sensors
+            nixpkgs.from.stable.bc              # GNU software calculator
         ];       
     };
 }
