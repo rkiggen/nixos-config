@@ -10,7 +10,7 @@
             enable = true;
             extraPackages = with pkgs; [
                 i3status        # gives you the default i3 status bar
-                i3blocks-gaps   #if you are planning on using i3blocks over i3status
+                i3blocks        #if you are planning on using i3blocks over i3status
                 i3lock          #default i3 screen locker
             ];
         };
