@@ -10,18 +10,20 @@
             enable = true;
             extraPackages = with pkgs; [
                 i3status        # gives you the default i3 status bar
-                i3blocks        #if you are planning on using i3blocks over i3status
-                i3lock          #default i3 screen locker
+                i3blocks        # if you are planning on using i3blocks over i3status
+                i3lock          # default i3 screen locker
             ];
         };
 
         environment.systemPackages = [
-            nixpkgs.from.stable.lxappearance    # lightweight program for configuring the theme and fonts of gtk applications
-            nixpkgs.from.stable.dunst           # lightweight and customizable notification daemon
             nixpkgs.from.stable.autorandr       # automatically select a display configuration based on connected devices
+            nixpkgs.from.stable.bc              # GNU software calculator
+            nixpkgs.from.stable.conky           # advanced, highly configurable system monitor based on torsmo
+            nixpkgs.from.stable.dunst           # lightweight and customizable notification daemon
             nixpkgs.from.stable.feh             # light-weight image viewer
             nixpkgs.from.stable.lm_sensors      # tools for reading hardware sensors
-            nixpkgs.from.stable.bc              # GNU software calculator
+            nixpkgs.from.stable.lxappearance    # lightweight program for configuring the theme and fonts of gtk applications
+            nixpkgs.from.stable.picom           # sample compositing manager for X servers
         ];       
     };
 }

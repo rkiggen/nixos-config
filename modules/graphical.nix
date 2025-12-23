@@ -38,7 +38,6 @@
             nixpkgs.from.stable.nextcloud-client                    # Desktop sync client for Nextcloud
 
             # terminals
-            nixpkgs.from.stable.wezterm                             # gpu accelerated cross-platform terminal emulator and multiplexer  
 
             # virtualization & emulation
             nixpkgs.from.stable.wineWowPackages.stable              # open source implementation of the Windows API on top of X, OpenGL, and Unix 
