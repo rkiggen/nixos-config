@@ -5,6 +5,11 @@
     config = {
 
         environment.systemPackages = [
+
+            # terminal setup
+            nixpkgs.from.stable.alacritty   # cross-platform, GPU-accelerated terminal emulator 
+            nixkpgs.from.stable.tmux        # terminal multiplexer
+            
             # tools
             nixpkgs.from.stable.btop
             nixpkgs.from.stable.pfetch
