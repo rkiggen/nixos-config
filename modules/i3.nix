@@ -6,8 +6,17 @@
 
         # I'm using i3 in combination with xfce
         # the defaultsession is defined in the xfce.nix config
+        
+        services.xserver.desktopManager.xfce.noDesktop = true;
+        services.xserver.desktopManager.xfce.enableXfwm = false;
+
         services.xserver.windowManager.i3 = {
             enable = true;
+            extraSessionCommands = ''
+                eval $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh);
+                export SSH_AUTH_SOCK; 
+            '';
+
             extraPackages = with pkgs; [
                 i3status        # gives you the default i3 status bar
                 i3blocks        # if you are planning on using i3blocks over i3status
