@@ -33,10 +33,11 @@
         #     ensurePrinters = [
         #         {
         #             name = "Canon_MFC645cx";
-        #             location = "Home";
-        #             deviceUri = "usb://Dell/1250c%20Color%20Printer?serial=YNP023240";
-        #             model = "Dell-1250c.ppd.gz";
+        #             location = "Ofice";
+        #             deviceUri = "ipp://Canona9afc7.ad.essential-it.be/ipp";
+        #             model = "CNRCUPSMF645CZK.ppd";  # Location of the ppd driver file for the printer. lpinfo -m shows a list of supported models.
         #             ppdOptions = {
+        #                 Duplex = "DuplexNoTumble";
         #                 PageSize = "A4";
         #             };
         #         }
