@@ -7,8 +7,9 @@
         # I'm using i3 in combination with xfce
         # the defaultsession is defined in the xfce.nix config
         
-        services.xserver.desktopManager.xfce.noDesktop = true;
-        services.xserver.desktopManager.xfce.enableXfwm = false;
+        # Comment below settings out if you are only using i3 !!!
+        # services.xserver.desktopManager.xfce.noDesktop = true;
+        # services.xserver.desktopManager.xfce.enableXfwm = false;
 
         services.xserver.windowManager.i3 = {
             enable = true;
