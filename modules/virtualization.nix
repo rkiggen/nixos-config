@@ -17,12 +17,11 @@
                 enable = true;
 
                 # Enable TPM emulation (for Windows 11)
-                qemu {
+                qemu = {
                     swtpm.enable = true;
-                    ovmf.packages = [ pkgs.OVMFFull.fd ];
                 };
             };
-            
+
             #  Enable USB redirection
             spiceUSBRedirection.enable = true;
         };
@@ -32,7 +31,6 @@
 
         # add your user to the libvirtd group 
         users.groups.libvirtd.members = [ "rkiggen" ];
-        virtualisation.spiceUSBRedirection.enable = true; 
 
         # Containerization: PODMAN
 
