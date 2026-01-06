@@ -10,8 +10,22 @@
         # sure that the appropriate kernel modules are loaded
         # boot.kernelModules = [ "kvm-amd" "kvm-intel" ];
 
-        # enable libvirtd
-        virtualisation.libvirtd.enable = true;
+        virtualisation = {
+            libvirtd = {
+
+                # enable libvirtd
+                enable = true;
+
+                # Enable TPM emulation (for Windows 11)
+                qemu {
+                    swtpm.enable = true;
+                    ovmf.packages = [ pkgs.OVMFFull.fd ];
+                };
+            };
+            
+            #  Enable USB redirection
+            spiceUSBRedirection.enable = true;
+        };
 
         # install virt-manager
         programs.virt-manager.enable = true;
