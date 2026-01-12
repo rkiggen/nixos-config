@@ -6,6 +6,7 @@
         environment.systemPackages = [
             nixpkgs.from.stable.emacs
             nixpkgs.from.stable.texlive.combined.scheme-full        # latex environment
+            nixpkgs.from.stable.asciidoctor-with-extensions         # asciidoc processor written in Ruby, with many extensions enabled
         ];
 
         services.emacs = {
