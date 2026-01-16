@@ -19,6 +19,7 @@
         ../../modules/starship.nix
         ../../modules/yazi.nix
         ../../modules/emacs.nix
+        ../../modules/development.nix
         ../../modules/virtualization.nix
         ../../modules/wireguard.nix
         ../../modules/kdeconnect.nix

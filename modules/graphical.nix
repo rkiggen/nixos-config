@@ -7,11 +7,6 @@
             # audio & video
             nixpkgs.from.stable.vlc
 
-            # development
-            nixpkgs.for.rider.jetbrains.rider                       # jetbrains rider ide 
-            nixpkgs.from.stable.vscode                              # visual studio code (development ide)
-            nixpkgs.from.stable.direnv                              # shell extension for managing your environment 
-
             # documents
             nixpkgs.from.stable.calibre							    # ebook reader
             nixpkgs.from.stable.foliate							    # ebook reader
@@ -36,8 +31,6 @@
 
             # synchronization
             nixpkgs.from.stable.nextcloud-client                    # Desktop sync client for Nextcloud
-
-            # terminals
 
             # virtualization & emulation
             nixpkgs.from.stable.wineWowPackages.stable              # open source implementation of the Windows API on top of X, OpenGL, and Unix 
