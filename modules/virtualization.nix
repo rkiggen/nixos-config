@@ -54,6 +54,7 @@
             # nixpkgs.from.stable.docker-compose    # start group of containers for dev
             nixpkgs.from.stable.podman-compose      # start group of containers for dev    
             nixpkgs.from.stable.podlet              # generate Podman Quadlet files from a Podman command, compose file, or existing object
+            nixpkgs.from.stable.virtiofsd           # vhost-user virtio-fs device backend written in Rust
         ];
    };
 }
