@@ -12,7 +12,7 @@
 
         environment.systemPackages = [
             nixpkgs.from.stable.starship
-        ]
+        ];
     };
 
 }
