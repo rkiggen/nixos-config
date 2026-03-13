@@ -4,9 +4,15 @@
 { inputs, pkgs, nixpkgs, ... }: {
 
     config = {
-        programs.starship = {
-            enable = true;
-        };
+
+        # does not add the binary to the path
+        # programs.starship = {
+        #     enable = true;
+        #};
+
+        environment.systemPackages = [
+            nixpkgs.from.stable.starship
+        ]
     };
 
 }
