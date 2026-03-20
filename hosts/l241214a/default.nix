@@ -23,6 +23,7 @@
         ../../modules/virtualization.nix
         ../../modules/wireguard.nix
         ../../modules/kdeconnect.nix
+        ../../modules/security.nix
         ./hardware-configuration.nix
     ];
 
