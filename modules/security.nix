@@ -15,8 +15,8 @@
 
         # enable firewall and block all ports
         networking.firewall.enable = true;
-        //networking.firewall.allowedTCPPorts = [];
-        //networking.firewall.allowedUDPPorts = []; 
+        #networking.firewall.allowedTCPPorts = [];
+        #networking.firewall.allowedUDPPorts = []; 
 
         # enable antivirus clamav and
         # keep the signatures' database updated
