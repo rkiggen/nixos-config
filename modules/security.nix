@@ -9,7 +9,7 @@
     config = {
 
         environment.systemPackages = [
-            nixpkgs.from.stable.clamv               # antivirus engine designed for detecting Trojans, viruses, malware and other malicious threats
+            nixpkgs.from.stable.clamav              # antivirus engine designed for detecting Trojans, viruses, malware and other malicious threats
             nixpkgs.from.stable.clamtk              # easy to use, lightweight front-end for ClamAV (Clam Antivirus)
         ];
 
