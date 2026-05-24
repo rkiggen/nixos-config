@@ -4,7 +4,12 @@
             
     config = {
 
-        # Firefox 
+       # Tor Browser 
+        environment.systemPackages = [
+            nixpkgs.from.stable.tor-browser                         # privacy-focused browser routing traffic through the Tor network
+        ];
+
+        # Firefox: install & configure
         programs.firefox = {
             enable = true;
             package = nixpkgs.from.stable.firefox-esr;
@@ -70,37 +75,79 @@
             };
         };
 
-        # Chromium
-        chromium = {
-            enableWideVine = true;
-        };
+        # Chromium : install & configure
+        #environment.systemPackages = [
+        #    nixpkgs.from.stable.chromium                            # open source web browser from Google
+        #];
 
-        programs.chromium = {
-            enable = true;
-            # Use ungoogled-chromium or cromite if available in your channel
-            package = pkgs.ungoogled-chromium;
-            homepageLocation = "https://start.duckduckgo.com/";
-            extensions = [
-                "ddkjiahejlhfcafbddmgiahcphecmpfh";     # uBlock Origin Lite
-                "nngceckbapebfimnlniiiahkandclblb";     # Bitwarden / Vaultwarden
-                "dlaogejjiafeobgofajdlkkhjlignalk";     # TablissNG
-                "fhcgjolkccmbidfldomjliifgaodjagh";     # Cookie Autodelete
-            ];
-            extraOpts = {
-                #"WebAppInstallForceList" = [
-                #    {
-                #        "custom_name" = "Youtube";
-                #        "create_desktop_shortcut" = false;
-                #        "default_launch_container" = "window";
-                #        "url" = "https://youtube.com";
-                #    }
-                #];
-            };
-        };
+        #programs.chromium = {
+        #    enable = true;
+        #    # Use ungoogled-chromium or cromite if available in your channel
+        #    # package = pkgs.ungoogled-chromium;
+        #    homepageLocation = "https://start.duckduckgo.com/";
+        #    extensions = [
+        #        "ddkjiahejlhfcafbddmgiahcphecmpfh"      # uBlock Origin Lite
+        #        "nngceckbapebfimnlniiiahkandclblb"      # Bitwarden / Vaultwarden
+        #        "dlaogejjiafeobgofajdlkkhjlignalk"      # TablissNG
+        #        "fhcgjolkccmbidfldomjliifgaodjagh"      # Cookie Autodelete
+        #    ];
+        #    extraOpts = {
+        #        #"WebAppInstallForceList" = [
+        #        #    {
+        #        #        "custom_name" = "Youtube";
+        #        #        "create_desktop_shortcut" = false;
+        #        #        "default_launch_container" = "window";
+        #        #        "url" = "https://youtube.com";
+        #        #    }
+        #        #];
+        #    };
+        #};
 
+        # Brave: install & configure
         environment.systemPackages = [
             nixpkgs.from.stable.brave                               # privacy-oriented browser for desktop and laptop computers
-            nixpkgs.from.stable.tor-browser                         # privacy-focused browser routing traffic through the Tor network
         ];
+
+        environment.etc."brave/policies/managed/policy.json".text = builtins.toJSON {
+            # --- Homepage ---
+            "HomepageLocation"                          = "https://start.duckduckgo.com/";
+            "HomepageIsNewTabPage"                      = false;
+
+            # --- Extensions ---
+            "ExtensionInstallForcelist" = [
+                "ddkjiahejlhfcafbddmgiahcphecmpfh;https://clients2.google.com/service/update2/crx"  # uBlock Origin Lite
+                "nngceckbapebfimnlniiiahkandclblb;https://clients2.google.com/service/update2/crx"  # Bitwarden
+                "dlaogejjiafeobgofajdlkkhjlignalk;https://clients2.google.com/service/update2/crx"  # TablissNG
+                "fhcgjolkccmbidfldomjliifgaodjagh;https://clients2.google.com/service/update2/crx"  # Cookie Autodelete
+            ];
+
+            # --- Telemetry ---
+            "MetricsReportingEnabled"                   = false;
+            # Disable the invasive enhanced mode, keep standard protection
+            "SafeBrowsingEnabled"                       = true;
+            "SafeBrowsingExtendedReportingEnabled"      = false;  # never send telemetry
+            "SafeBrowsingProtectionLevel"               = 1;  # 0=off, 1=standard, 2=enhanced
+
+            # --- Search & omnibox ---
+            "SearchSuggestEnabled"                      = false;
+            "UrlKeyedAnonymizedDataCollectionEnabled"   = false;
+
+            # --- Sync & sign-in ---
+            "SyncDisabled"                              = true;
+            "BrowserSignin"                             = 0;
+
+            # --- Network ---
+            "NetworkPredictionOptions"                  = 2;
+            "WebRtcIPHandling"                          = "disable_non_proxied_udp";
+            "AlternateErrorPagesEnabled"                = false;
+
+             # --- Misc ---
+            "TranslateEnabled"                          = false;
+            "SpellCheckServiceEnabled"                  = false;
+            "AutofillAddressEnabled"                    = false;
+            "AutofillCreditCardEnabled"                 = false;
+            "PromotionalTabsEnabled"                    = false;
+        };
+
     };
 }
