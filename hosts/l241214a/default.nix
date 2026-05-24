@@ -13,7 +13,7 @@
         ../../modules/graphical.nix
         ../../modules/terminal.nix
         ../../modules/fonts.nix
-        ../../modules/firefox.nix
+        ../../modules/browser.nix
         ../../modules/rofi.nix
         ../../modules/zsh.nix
         ../../modules/starship.nix
