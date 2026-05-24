@@ -6,7 +6,9 @@
 
        # Tor Browser 
         environment.systemPackages = [
+            nixpkgs.from.stable.brave                               # privacy-oriented browser for desktop and laptop computers
             nixpkgs.from.stable.tor-browser                         # privacy-focused browser routing traffic through the Tor network
+        #    nixpkgs.from.stable.chromium                            # open source web browser from Google
         ];
 
         # Firefox: install & configure
@@ -75,11 +77,7 @@
             };
         };
 
-        # Chromium : install & configure
-        #environment.systemPackages = [
-        #    nixpkgs.from.stable.chromium                            # open source web browser from Google
-        #];
-
+        # Chromium : configure
         #programs.chromium = {
         #    enable = true;
         #    # Use ungoogled-chromium or cromite if available in your channel
@@ -104,10 +102,6 @@
         #};
 
         # Brave: install & configure
-        environment.systemPackages = [
-            nixpkgs.from.stable.brave                               # privacy-oriented browser for desktop and laptop computers
-        ];
-
         environment.etc."brave/policies/managed/policy.json".text = builtins.toJSON {
             # --- Homepage ---
             "HomepageLocation"                          = "https://start.duckduckgo.com/";
@@ -119,6 +113,7 @@
                 "nngceckbapebfimnlniiiahkandclblb;https://clients2.google.com/service/update2/crx"  # Bitwarden
                 "dlaogejjiafeobgofajdlkkhjlignalk;https://clients2.google.com/service/update2/crx"  # TablissNG
                 "fhcgjolkccmbidfldomjliifgaodjagh;https://clients2.google.com/service/update2/crx"  # Cookie Autodelete
+                "dhdgffkkebhmkfjojejmpbldmpobfkfo;https://clients2.google.com/service/update2/crx"  # Tampermonkey
             ];
 
             # --- Telemetry ---
