@@ -11,12 +11,12 @@
         # boot.kernelModules = [ "kvm-amd" "kvm-intel" ];
 
         # Emulate arm64 & riscv64 on a native x86_64 (amd64) host 
-        boot.binfmt.emulatedSystems = [
-            "aarch64-linux"
-            "riscv64-linux"
-        ];
+        #boot.binfmt.emulatedSystems = [
+        #    "aarch64-linux"
+        #    "riscv64-linux"
+        #];
         
-        boot.binfmt.registrations."aarch64-linux".fixBinary = true;
+        #boot.binfmt.registrations."aarch64-linux".fixBinary = true;
 
         virtualisation = {
             libvirtd = {
