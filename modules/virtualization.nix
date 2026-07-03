@@ -27,6 +27,7 @@
                 # Enable TPM emulation (for Windows 11)
                 qemu = {
                     swtpm.enable = true;
+                    vhostUserPackages = with pkgs; [ virtiofsd ];
                 };
             };
 
