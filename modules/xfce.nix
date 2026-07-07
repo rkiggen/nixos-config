@@ -44,6 +44,11 @@
             displayManager = {
                 lightdm = {
                     enable = true;
+                    greeters.gtk = {
+                        enable = true;
+                        theme.name = "Adwaita";
+                        iconTheme.name = "Adwaita";
+                    };
                 };
             };
 
@@ -54,8 +59,14 @@
             };
         };
 
+        environment.xfce.excludePackages = with pkgs.xfce; [
+            xfce4-screensaver
+        ];
+
         services.displayManager.defaultSession = "xfce";
         # services.displayManager.defaultSession = "none+i3";
+
+        services.xscreensaver.enable = true;
 
         programs = {
             dconf.enable = true;
@@ -76,6 +87,10 @@
         # List packages installed in system profile. To search, run:
         # $ nix search wget
         environment.systemPackages = [
+
+            # X11/XORG packages
+            nixpkgs.from.stable.xscreensaver        # set of screensavers
+
             # Gtk specific packages
             nixpkgs.from.stable.blueman 		    # GTK based bluetooth manager
             nixpkgs.from.stable.pavucontrol	        # Pulse Audio Volume Control
