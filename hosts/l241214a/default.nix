@@ -76,10 +76,22 @@
  
     services.power-profiles-daemon.enable = true; 
 
-    # Disable fingerprint sensor
     services.udev.extraRules = ''
+        # Disable fingerprint sensor
         SUBSYSTEM=="usb", ATTR{idVendor}=="27c6", ATTR{idProduct}=="609c", ATTR{authorized}="0"
     '';
+
+    # Service for NVMe ASPM fix
+    systemd.services.disable-nvme-aspm = {
+        description = "Disable ASPM on NVMe PCIe link (WD SN770 idle/CSTS bug workaround)";
+        wantedBy = [ "multi-user.target" ];
+        after = [ "local-fs.target" ];
+        serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${pkgs.pciutils}/bin/setpci -s 0000:02:00.0 CAP_EXP+0x10.w=00c0";
+            RemainAfterExit = true;
+        };
+    }; 
 
     # Copy the NixOS configuration file and link it from the resulting system
     # (/run/current-system/configuration.nix). This is useful in case you
