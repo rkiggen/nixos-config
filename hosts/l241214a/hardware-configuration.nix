@@ -15,9 +15,11 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelParams = [
     "amdgpu.runpm=0"
+    "amdgpu.dcdebugmask=0x10"
     "nvme_core.default_ps_max_latency_us=0"
     "pcie_aspm=off"
     "pcie_port_pm=off"
+    "mem_sleep_default=s2idle"
   ];  
   boot.extraModulePackages = [ ];
 

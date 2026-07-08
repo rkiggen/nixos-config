@@ -64,7 +64,16 @@
         };
         pulse.enable = true;
     };
-  
+
+    # Configure how the system sleeps when the lid is closed;
+    # specifically, it should sleep or suspend in all cases
+    # --> when running on battery power
+    # --> when connected to external power
+    # --> when connected to a dock that has external power 
+    services.logind.settings.Login.HandleLidSwitch = "suspend";
+    services.logind.settings.Login.HandleLidSwitchExternalPower = "suspend";
+    services.logind.settings.Login.HandleLidSwitchDocked = "suspend";
+ 
     services.power-profiles-daemon.enable = true; 
 
     # Disable fingerprint sensor
