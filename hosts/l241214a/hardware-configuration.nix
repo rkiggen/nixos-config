@@ -13,7 +13,10 @@
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.kernelParams = [ "amdgpu.runpm=0" ];
+  boot.kernelParams = [
+    "amdgpu.runpm=0"
+    "nvme_core.default_ps_max_latency_us=0"
+  ];  
   boot.extraModulePackages = [ ];
 
   # Unencrypt LUKS partition

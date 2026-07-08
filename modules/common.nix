@@ -35,6 +35,7 @@
             nixpkgs.from.stable.delta           # syntax highlighting pager for git
             nixpkgs.from.stable.chezmoi         # manage your dotfiles across multiple machines, securely            
             nixpkgs.from.stable.neovim          # neovim editor
+            nixpkgs.from.stable.nvme-cli        # nvme cli utilities
             nixpkgs.from.stable.wget
             nixpkgs.from.stable.pciutils	    # collection of programs for inspecting and manipulating configuration of pci devices
             nixpkgs.from.stable.ntfs3g 	        # ntfs support
