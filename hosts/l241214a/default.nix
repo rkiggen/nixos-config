@@ -26,8 +26,11 @@
         ../../modules/security.nix
         ./hardware-configuration.nix
     ];
-
-    # enable all firmware, 
+    
+    # Allow updates device firmware/BIOS
+    services.fwupd.enable = true;
+    
+    # Enable all firmware, 
     hardware.enableAllFirmware = true; # or hardware.firmwareLinuxNonfree
 
     # Use the systemd-boot EFI boot loader.
@@ -63,6 +66,11 @@
     };
   
     services.power-profiles-daemon.enable = true; 
+
+    # Disable fingerprint sensor
+    services.udev.extraRules = ''
+        SUBSYSTEM=="usb", ATTR{idVendor}=="27c6", ATTR{idProduct}=="609c", ATTR{authorized}="0"
+    '';
 
     # Copy the NixOS configuration file and link it from the resulting system
     # (/run/current-system/configuration.nix). This is useful in case you
