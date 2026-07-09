@@ -75,11 +75,14 @@
     services.logind.settings.Login.HandleLidSwitchDocked = "suspend";
  
     services.power-profiles-daemon.enable = true; 
-
-    services.udev.extraRules = ''
-        # Disable fingerprint sensor
-        SUBSYSTEM=="usb", ATTR{idVendor}=="27c6", ATTR{idProduct}=="609c", ATTR{authorized}="0"
-    '';
+    
+    # Enable fingerprint sensor
+    services.fprintd.enable = true;
+    
+    #services.udev.extraRules = ''
+    #    # Disable fingerprint sensor
+    #    SUBSYSTEM=="usb", ATTR{idVendor}=="27c6", ATTR{idProduct}=="609c", ATTR{authorized}="0"
+    #'';
 
     # Service for NVMe ASPM fix
     systemd.services.disable-nvme-aspm = {

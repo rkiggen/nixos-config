@@ -20,6 +20,7 @@
     "pcie_aspm=off"
     "pcie_port_pm=off"
     "mem_sleep_default=s2idle"
+    "iommu=pt"
   ];  
   boot.extraModulePackages = [ ];
 
