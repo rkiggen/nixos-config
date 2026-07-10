@@ -81,9 +81,6 @@
             '';
         };
 
-        # Ensure you can unlock the screen without authentication errors
-        pam.services.xscreensaver.enable = true;
-
         programs = {
             dconf.enable = true;
             gnupg.agent = {
