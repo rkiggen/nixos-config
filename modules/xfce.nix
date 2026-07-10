@@ -72,15 +72,6 @@
         #  Enable the XScreenSaver user service daemon
         services.xscreensaver.enable = true;
 
-        # Change xfce screenlock command
-        environment.etc."xdg/xfce4/xflock4" = {
-            mode = "0755";
-            text = ''
-                #!/usr/bin/env bash
-                exec ${pkgs.xscreensaver}/bin/xscreensaver-command -lock
-            '';
-        };
-
         programs = {
             dconf.enable = true;
             gnupg.agent = {
