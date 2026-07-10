@@ -47,6 +47,7 @@
   # above.
   boot.kernelParams = [
     "mem_sleep_default=s2idle"
+    "amdgpu.dcdebugmask=0x12" # Disable PSR, PSR-SU and PR
   ];  
   boot.extraModulePackages = [ ];
 
