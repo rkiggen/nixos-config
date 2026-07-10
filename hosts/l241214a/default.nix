@@ -1,6 +1,11 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
+#
+# This file holds general system policy/behavior for this host. Anything
+# specific to this exact piece of hardware (kernel params, hardware-bug
+# workarounds, filesystems, etc.) lives in ./hardware-configuration.nix
+# instead - see the comments there for why each workaround exists.
 
 { config, lib, pkgs, userName, ... }: {
 
@@ -70,31 +75,14 @@
     # --> when running on battery power
     # --> when connected to external power
     # --> when connected to a dock that has external power 
-    services.logind.settings.Login.HandleLidSwitch = "suspend";
-    services.logind.settings.Login.HandleLidSwitchExternalPower = "suspend";
-    services.logind.settings.Login.HandleLidSwitchDocked = "suspend";
+    #services.logind.settings.Login.HandleLidSwitch = "suspend";
+    #services.logind.settings.Login.HandleLidSwitchExternalPower = "suspend";
+    #services.logind.settings.Login.HandleLidSwitchDocked = "suspend";
  
     services.power-profiles-daemon.enable = true; 
     
     # Enable fingerprint sensor
     services.fprintd.enable = true;
-    
-    #services.udev.extraRules = ''
-    #    # Disable fingerprint sensor
-    #    SUBSYSTEM=="usb", ATTR{idVendor}=="27c6", ATTR{idProduct}=="609c", ATTR{authorized}="0"
-    #'';
-
-    # Service for NVMe ASPM fix
-    systemd.services.disable-nvme-aspm = {
-        description = "Disable ASPM on NVMe PCIe link (WD SN770 idle/CSTS bug workaround)";
-        wantedBy = [ "multi-user.target" ];
-        after = [ "local-fs.target" ];
-        serviceConfig = {
-            Type = "oneshot";
-            ExecStart = "${pkgs.pciutils}/bin/setpci -s 0000:02:00.0 CAP_EXP+0x10.w=00c0";
-            RemainAfterExit = true;
-        };
-    }; 
 
     # Copy the NixOS configuration file and link it from the resulting system
     # (/run/current-system/configuration.nix). This is useful in case you
