@@ -58,19 +58,21 @@
                 variant = "altgr-intl";
             };
         };
-
-        environment.xfce.excludePackages = with pkgs.xfce; [
-            xfce4-screensaver
-        ];
-
+        
         services.displayManager.defaultSession = "xfce";
         # services.displayManager.defaultSession = "none+i3";
 
-        # Disable XFCE's default screensaver
-        services.xserver.desktopManager.xfce.enableScreensaver = false;
-
-        #  Enable the XScreenSaver user service daemon
-        services.xscreensaver.enable = true;
+        # Change screensaver to xmatrix | glmatrix from xscreensaver package
+        # https://docs.xfce.org/apps/xfce4-screensaver/faq#where_are_all_the_screensavers 
+        # location .desktop file should be in ~/.local/share/applications/screensavers !
+        environment.etc."xdg/applications/screensavers/xmatrix.desktop".text = ''
+            [Desktop Entry]
+            Type=Application
+            Name=XMatrix
+            Exec=${pkgs.xscreensaver}/libexec/xscreensaver/xmatrix -root
+            TryExec=${pkgs.xscreensaver}/libexec/xscreensaver/xmatrix
+            Categories=Screensaver;
+        '';
 
         programs = {
             dconf.enable = true;
