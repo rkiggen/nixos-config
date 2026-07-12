@@ -77,6 +77,22 @@
             };
         };
 
+        # Firefox: configure policies
+        environment.etc."firefox/policies/policies.json".text = builtins.toJSON {
+            policies = {
+                Preferences = {
+                    "gfx.webrender.all" = {
+                        Value = false;
+                        Status = "locked";
+                    };
+                    "media.ffmpeg.vaapi.enabled" = {
+                        Value = false;
+                        Status = "locked";
+                    };
+                };
+            };
+        };
+
         # Chromium : configure
         #programs.chromium = {
         #    enable = true;
@@ -101,7 +117,7 @@
         #    };
         #};
 
-        # Brave: install & configure
+        # Brave: configure
         environment.etc."brave/policies/managed/policy.json".text = builtins.toJSON {
             # --- Homepage ---
             "HomepageLocation"                          = "https://start.duckduckgo.com/";
