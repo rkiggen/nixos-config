@@ -33,7 +33,20 @@
                 DisplayBookmarksToolbar = "always"; # alternatives: "never" or "newtab"
                 DisplayMenuBar = "default-off"; # alternatives: "always", "never" or "default-on"
                 SearchBar = "unified"; # alternative: "separate"
-
+                
+                # amdgpu/WebRender crash workaround - see hardware-configuration.nix
+                # history notes for context (dcn31_program_compbuf_size / GPU hang
+                # bugs on this Framework 16 AMD 7040-series chip)               
+                Preferences = {
+                    "gfx.webrender.all" = {
+                        Value = false;
+                        Status = "locked";
+                    };
+                    "media.ffmpeg.vaapi.enabled" = {
+                        Value = false;
+                        Status = "locked";
+                    };
+                };
                 /* ---- EXTENSIONS ---- */
                 # Check about:support for extension/add-on ID strings.
                 # To add additional extensions, find it on addons.mozilla.org, find
@@ -73,22 +86,6 @@
                         installation_mode = "force_installed";
                     };
                
-                };
-            };
-        };
-
-        # Firefox: configure policies
-        environment.etc."firefox/policies/policies.json".text = builtins.toJSON {
-            policies = {
-                Preferences = {
-                    "gfx.webrender.all" = {
-                        Value = false;
-                        Status = "locked";
-                    };
-                    "media.ffmpeg.vaapi.enabled" = {
-                        Value = false;
-                        Status = "locked";
-                    };
                 };
             };
         };
