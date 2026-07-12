@@ -45,9 +45,31 @@
   # This, combined with BIOS optimal/default settings, is what actually
   # fixed suspend/resume reliability on this machine - see history note
   # above.
+  #
+  # kernel.softlockup_panic=1: by default, if a CPU spins in kernel code
+  # for too long (~20s) without yielding, the kernel just logs a warning
+  # and the machine sits there unresponsive forever. This forces an
+  # actual panic instead, so the hang is at least recorded (via pstore,
+  # surviving a hard reset) rather than silently freezing with zero
+  # trace - which is what happened repeatedly during past debugging on
+  # this machine.
+  #
+  # kernel.hung_task_panic=1: same idea, but for a process stuck in
+  # uninterruptible I/O sleep (D state) for too long (~120s) - e.g.
+  # waiting on a disk/device that never responds. Several past freezes
+  # here were plausibly exactly this (NVMe/USB never returning from an
+  # I/O wait). Forcing a panic converts "silent unrecoverable hang" into
+  # a diagnosable crash with a real stack trace.
+  #
+  # Tradeoff: a forced reboot instead of a frozen-but-technically-alive
+  # machine. Since a hard freeze already requires a hard power-off
+  # anyway, this is a straightforward win - worse case is a rare false
+  # positive under extreme legitimate load (e.g. heavy swap thrashing).
   boot.kernelParams = [
     "mem_sleep_default=s2idle"
     "amdgpu.dcdebugmask=0x12" # Disable PSR, PSR-SU and PR
+    "kernel.softlockup_panic=1"
+    "kernel.hung_task_panic=1"
   ];  
   boot.extraModulePackages = [ ];
 
