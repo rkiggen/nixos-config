@@ -49,10 +49,15 @@
                 };
                 /* ---- EXTENSIONS ---- */
                 # Check about:support for extension/add-on ID strings.
-                # To add additional extensions, find it on addons.mozilla.org, find
-                # the short ID in the url (like https://addons.mozilla.org/en-US/firefox/addon/!SHORT_ID!/)
-                # Then, download the XPI by right clicking the "Add to firefox" link
+                # To add additional extensions, find:
+                # 1. the Addon-on-ID which is used as the key for the extension;
+                # 2. the Download-ID which is used to determine the download link (like https://addons.mozilla.org/en-US/firefox/addon/!Download-ID!/);
+                # 
+                # The Addon-on-ID can be found via either the "Copy add-on ID" on the Addon page
+                # or by downloading the XPI (right clicking the "Add to firefox" link)
                 # unzip the .xpi file, open the manifest.json file and look for [applications|browser_specific_settings].gecko.id
+                #
+                # The Download-ID is the last part of the addon url;
                 ExtensionSettings = {
                     "*".installation_mode = "allowed"; # alternatives: "blocked", "force_installed" or "normal_installed"
 
@@ -85,7 +90,12 @@
                         install_url = "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi";
                         installation_mode = "force_installed";
                     };
-               
+
+                    # Tampermonkey
+                    "firefox@tampermonkey.net" = {
+                        install_url = "https://addons.mozilla.org/firefox/downloads/latest/tampermonkey/latest.xpi";
+                        installation_mode = "force_installed";
+                    };                     
                 };
             };
         };
