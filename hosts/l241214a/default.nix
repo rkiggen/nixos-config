@@ -29,6 +29,7 @@
         ../../modules/wireguard.nix
         ../../modules/kdeconnect.nix
         ../../modules/security.nix
+        ../../modules/ai.nix
         ./hardware-configuration.nix
     ];
     
