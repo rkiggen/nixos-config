@@ -72,7 +72,7 @@
 
             # Clevo NS55 laptop
             l231028a = nixosMachine {
-                hostname = "l231028a";
+                hostName = "l231028a";
                 userName = "rkiggen";
                 system = "x86_64-linux";
             };
