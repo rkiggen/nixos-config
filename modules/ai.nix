@@ -10,6 +10,7 @@
         # from the shared binary cache. The FIRST rebuild after adding this
         # will compile llama.cpp from source locally - budget 15-30 minutes.
         # https://www.nijho.lt/post/llama-nixos/#my-nixos-setup
+        # https://github.com/basnijholt/dotfiles
         nixpkgs.overlays = [
             (final: prev: {
                 llama-cpp = (prev.llama-cpp.override {
