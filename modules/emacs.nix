@@ -5,6 +5,7 @@
     config = {
         environment.systemPackages = [
             nixpkgs.from.stable.emacs
+            nixpkgs.from.stable.pandoc                              # conversion between documentation formats
             nixpkgs.from.stable.texlive.combined.scheme-full        # latex environment
             nixpkgs.from.stable.asciidoctor-with-extensions         # asciidoc processor written in Ruby, with many extensions enabled
             nixpkgs.from.stable.wkhtmltopdf                         # tools for rendering web pages to PDF or images (binary package)
