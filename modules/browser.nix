@@ -9,6 +9,13 @@
             nixpkgs.from.stable.brave                               # privacy-oriented browser for desktop and laptop computers
             nixpkgs.from.stable.tor-browser                         # privacy-focused browser routing traffic through the Tor network
         #    nixpkgs.from.stable.chromium                            # open source web browser from Google
+
+            # Video Codecs    
+            nixpkgs.from.stable.ffmpeg-full
+            nixpkgs.from.stable.gst_all_1.gst-plugins-base
+            nixpkgs.from.stable.gst_all_1.gst-plugins-good
+            nixpkgs.from.stable.gst_all_1.gst-plugins-bad
+            nixpkgs.from.stable.gst_all_1.gst-plugins-ugly
         ];
 
         # Firefox: install & configure
