@@ -34,7 +34,18 @@
         # Start here; don't copy Bas's full multi-GPU model list.
         environment.etc."llama-swap/config.yaml".text = ''
             models:
-              # Fast daily driver - comfortably fits, good for interactive use
+              # Fast, no reasoning trace - good default for everyday questions
+              "qwen3:8b":
+                cmd: |
+                  ${pkgs.llama-cpp}/bin/llama-server
+                  --hf-repo unsloth/Qwen3-8B-128K-GGUF
+                  --port ''${PORT}
+                  --ctx-size 32768
+                  --threads 8
+                  --jinja
+                  --chat-template-kwargs '{"enable_thinking": false}'
+                  
+              # Same model, thinking enabled - use for genuinely hard problems
               "qwen3-thinking:8b":
                 cmd: |
                   ${pkgs.llama-cpp}/bin/llama-server
@@ -42,9 +53,11 @@
                   --port ''${PORT}
                   --ctx-size 32768
                   --threads 8
+                  --jinja
 
-              # Heavier option - MoE (only ~3.3B active params despite "30B"
-              # name), so noticeably faster than a dense 30B on CPU. Use for
+              # Heavier MoE model for ingest/synthesis work, not for quick chat
+              # MoE (only ~3.3B active params despite "30B" name), 
+              # so  noticeably faster than a dense 30B on CPU. Use for
               # ingest/synthesis jobs where you don't need instant response.
               "qwen3-coder:30b":
                 cmd: |
@@ -53,6 +66,7 @@
                   --port ''${PORT}
                   --ctx-size 32768
                   --threads 8
+                  --jinja
 
             healthCheckTimeout: 600
             ttl: 3600
