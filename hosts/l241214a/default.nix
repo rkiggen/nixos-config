@@ -19,6 +19,7 @@
         ../../modules/terminal.nix
         ../../modules/fonts.nix
         ../../modules/browser.nix
+        ../../modules/email.nix
         ../../modules/rofi.nix
         ../../modules/zsh.nix
         ../../modules/starship.nix
@@ -62,12 +63,12 @@
     services.libinput.enable = true;
 
     # Enable sound
+    # rtkit is optional but recommended
+    security.rtkit.enable = true;
     services.pipewire = {
         enable = true;
-        alsa = {
-            enable = true;
-            support32Bit = true;
-        };
+        alsa.enable = true;
+        alsa.support32Bit = true;
         pulse.enable = true;
     };
 
