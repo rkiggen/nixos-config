@@ -46,7 +46,7 @@
         virtualisation.containers.enable = true;
 
         # Docker - development / VS Code Dev Containers
-        docker.enable = true;
+        virtualisation.docker.enable = true;
         
         # Podman - production / rootless containers
         virtualisation = {
