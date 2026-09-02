@@ -19,7 +19,7 @@
             isNormalUser = true;
             initialPassword = "password"; # change with `passwd`
             shell = pkgs.zsh;
-            extraGroups = [ "wheel" "video" "audio" "networkmanager" "lp" "scanner"];
+            extraGroups = [ "wheel" "video" "audio" "networkmanager" "lp" "scanner" "docker" ];
         };
 
         nixpkgs.config = {
