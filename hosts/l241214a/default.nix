@@ -44,6 +44,21 @@
     boot.loader.systemd-boot.enable = true;
     boot.loader.efi.canTouchEfiVariables = true;
 
+    # Styling the boot process
+    boot.plymouth.enable = true;
+    boot.plymouth.theme = "darth_vader";
+    boot.plymouth.themePackages = [ (pkgs.adi1090x-plymouth-themes.override { selected_themes = [ "rings" "darth_vader" ]; }) ];
+    
+    # Optional but recommended for a clean look — hides the usual
+    # scrolling kernel/systemd log text during boot
+    boot.consoleLogLevel = 3;
+    boot.initrd.verbose = false;
+    boot.kernelParams = [
+        "quiet"
+        "udev.log_level=3"
+        "systemd.show_status=auto"
+    ];
+
     # Setup hostname & networking
     networking.hostName = "l241214a"; # Define your hostname.
     networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.

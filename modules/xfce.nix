@@ -1,6 +1,16 @@
 # XFCE desktop environment configuration
 
-{ config, lib, pkgs, nixpkgs, ... }: {
+{ config, lib, pkgs, nixpkgs, ... }: 
+let
+    wallpaper = ../assets/wallpaper-bigsur.png;
+    blurredWallpaper = pkgs.runCommand "blurred-wallpaper.png" {
+        nativeBuildInputs = [ pkgs.imagemagick ];
+    } ''
+    magick ${wallpaper} -resize 3840x2160^ -gravity center -extent 3840x2160 \
+      -blur 0x24 -brightness-contrast -15x0 "$out"
+  '';
+in
+{
 
     config = {
         # Apply xserver mappings to virtual console config.
@@ -44,10 +54,33 @@
             displayManager = {
                 lightdm = {
                     enable = true;
-                    greeters.gtk = {
+                    background = "${blurredWallpaper}";
+                    greeters.slick = {
                         enable = true;
-                        theme.name = "Adwaita";
-                        iconTheme.name = "Adwaita";
+                        theme = {
+                            package = pkgs.whitesur-gtk-theme;
+                            name = "WhiteSur-Dark";
+                        };
+                        iconTheme = {
+                            package = pkgs.whitesur-icon-theme;
+                            name = "WhiteSur-dark";
+                        };
+                        cursorTheme = {
+                            package = pkgs.whitesur-cursors;
+                            name = "WhiteSur-cursors";
+                            size = 24;
+                        };
+
+                        extraConfig = ''
+                            draw-user-backgrounds = true
+                            show-hostname = false
+                            show-keyboard = false
+                            show-a11y = false
+                            show-quit = false
+                            show-power = true
+                            show-clock = true
+                            font-name = Inter 11
+                        '';
                     };
                 };
             };
@@ -58,7 +91,7 @@
                 variant = "altgr-intl";
             };
         };
-        
+
         services.displayManager.defaultSession = "xfce";
         # services.displayManager.defaultSession = "none+i3";
 
@@ -126,9 +159,19 @@
             nixpkgs.from.stable.xfce.xfdashboard
 
             # Theming
-            nixpkgs.from.stable.arc-theme           # Flat theme with transparent elements for GTK 3, GTK 2 and Gnome Shell
-            nixpkgs.from.stable.dracula-icon-theme  # dracula icon theme (dark)
-            nixpkgs.from.stable.catppuccin-cursors  # Catppuccin cursor theme based on Volantes
+
+            ## GTK theme: whitesur
+            nixpkgs.from.stable.gtk-engine-murrine  # very flexible theme engine
+            nixpkgs.from.stable.whitesur-gtk-theme  # MacOS BigSur like Gtk+ theme based on Elegant Design
+            nixpkgs.from.stable.whitesur-cursors    # X-cursor theme inspired by macOS and based on capitaine-cursors
+            nixpkgs.from.stable.whitesur-icon-theme # MacOS Big Sur style icon theme for Linux desktops
+
+            ## plank dock
+            nixpkgs.from.stable.plank               # Elegant, simple, clean dock
+            nixpkgs.from.stable.bamf                # Application matching framework
+
+            ## other
+            nixpkgs.from.stable.conky               # Advanced, highly configurable system monitor based on torsmo
             nixpkgs.from.stable.variety             # a wallpaper manager for Linux systems
         ];
     };
