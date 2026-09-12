@@ -71,19 +71,16 @@
                     # uBlock Origin
                     "uBlock0@raymondhill.net" = {
                         install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
-                        installation_mode = "force_installed";
                     };
 
                     # Cookie Autodelete
                     "CookieAutoDelete@kennydo.com" = {
                         install_url = "https://addons.mozilla.org/firefox/downloads/latest/cookie-autodelete/latest.xpi";
-                        installation_mode = "force_installed";
                     };                   
 
                     # Multi Account Containers
                     "@testpilot-containers" = {
                         install_url = "https://addons.mozilla.org/firefox/downloads/latest/multi-account-containers/latest.xpi";
-                        installation_mode = "force_installed";
                     };
 
                     # TablissNG
@@ -95,13 +92,11 @@
                     # Bitwarden 
                     "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
                         install_url = "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi";
-                        installation_mode = "force_installed";
                     };
 
                     # Tampermonkey
                     "firefox@tampermonkey.net" = {
                         install_url = "https://addons.mozilla.org/firefox/downloads/latest/tampermonkey/latest.xpi";
-                        installation_mode = "force_installed";
                     };                     
                 };
             };
