@@ -115,7 +115,7 @@ in
             };
             thunar = {
                 enable = true;
-                plugins = with pkgs.xfce; [
+                plugins = with pkgs; [
                     thunar-archive-plugin
                     thunar-media-tags-plugin
                     thunar-volman
@@ -139,24 +139,24 @@ in
             nixpkgs.from.stable.qalculate-gtk       # Ultimate desktop calculator
 
             # Xfce specific packages
-            nixpkgs.from.stable.xfce.catfish
-            nixpkgs.from.stable.xfce.gigolo
-            nixpkgs.from.stable.xfce.orage
-            nixpkgs.from.stable.xfce.xfburn
-            nixpkgs.from.stable.xfce.xfce4-appfinder
-            nixpkgs.from.stable.xfce.xfce4-clipman-plugin
-            nixpkgs.from.stable.xfce.xfce4-cpugraph-plugin
-            nixpkgs.from.stable.xfce.xfce4-dict
-            nixpkgs.from.stable.xfce.xfce4-fsguard-plugin
-            nixpkgs.from.stable.xfce.xfce4-genmon-plugin
-            nixpkgs.from.stable.xfce.xfce4-netload-plugin
-            nixpkgs.from.stable.xfce.xfce4-panel
-            nixpkgs.from.stable.xfce.xfce4-pulseaudio-plugin
-            nixpkgs.from.stable.xfce.xfce4-systemload-plugin
-            nixpkgs.from.stable.xfce.xfce4-weather-plugin
-            nixpkgs.from.stable.xfce.xfce4-whiskermenu-plugin
-            nixpkgs.from.stable.xfce.xfce4-xkb-plugin
-            nixpkgs.from.stable.xfce.xfdashboard
+            nixpkgs.from.stable.catfish
+            nixpkgs.from.stable.gigolo
+            nixpkgs.from.stable.orage
+            nixpkgs.from.stable.xfburn
+            nixpkgs.from.stable.xfce4-appfinder
+            nixpkgs.from.stable.xfce4-clipman-plugin
+            nixpkgs.from.stable.xfce4-cpugraph-plugin
+            nixpkgs.from.stable.xfce4-dict
+            nixpkgs.from.stable.xfce4-fsguard-plugin
+            nixpkgs.from.stable.xfce4-genmon-plugin
+            nixpkgs.from.stable.xfce4-netload-plugin
+            nixpkgs.from.stable.xfce4-panel
+            nixpkgs.from.stable.xfce4-pulseaudio-plugin
+            nixpkgs.from.stable.xfce4-systemload-plugin
+            nixpkgs.from.stable.xfce4-weather-plugin
+            nixpkgs.from.stable.xfce4-whiskermenu-plugin
+            nixpkgs.from.stable.xfce4-xkb-plugin
+            nixpkgs.from.stable.xfdashboard
 
             # Theming
 

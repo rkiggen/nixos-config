@@ -31,7 +31,7 @@
             nixpkgs.from.stable.nextcloud-client                    # Desktop sync client for Nextcloud
 
             # virtualization & emulation
-            nixpkgs.from.stable.wineWowPackages.stable              # open source implementation of the Windows API on top of X, OpenGL, and Unix 
+            nixpkgs.from.stable.wineWow64Packages.stable            # open source implementation of the Windows API on top of X, OpenGL, and Unix 
             nixpkgs.from.stable.winetricks 
 
         ];
