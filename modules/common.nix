@@ -67,6 +67,11 @@
             BROWSER = "firefox";
         };
 
+        # Enable the OpenSSH daemon for generating the host key for Agenix
+        services.openssh = {
+            enable = true;
+            openFirewall = false;   # don't open the port if you don't want to accept SSH logins
+        };
 
         # Maximum number of latest generations in the boot menu.
         boot.loader.systemd-boot.configurationLimit = 10;

@@ -10,6 +10,7 @@
 { config, lib, pkgs, userName, ... }: {
 
     imports = [ 
+        ../../modules/agenix.nix
         ../../modules/xfce.nix
         ../../modules/i3.nix
         ../../modules/printing.nix

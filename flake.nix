@@ -24,6 +24,9 @@
 
         # Hardware modules (for Framework specific modules)
         nixos-hardware.url = "github:nixos/nixos-hardware/master";
+
+        # Secrets management (age-encrypted, uses SSH keys)
+        agenix.url = "github:ryantm/agenix";
     };
 
     outputs = inputs: {
@@ -60,9 +63,13 @@
                         inputs."nixpkgs-for-nixos-${hostName}".lib.nixosSystem {
                             inherit system;
                             # inputs relayed to each module
-                            specialArgs = { inherit inputs nixpkgs userName hostName; };
+                            specialArgs = { 
+                                inherit inputs nixpkgs userName hostName system; 
+                                agenix = inputs.agenix; 
+                            };
                             # files containing actual OS configurations
                             modules = [
+                                inputs.agenix.nixosModules.default
                                 ./modules/common.nix
                                 ./hosts/${hostName}
                             ];
