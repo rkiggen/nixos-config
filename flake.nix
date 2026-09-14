@@ -27,6 +27,8 @@
 
         # Secrets management (age-encrypted, uses SSH keys)
         agenix.url = "github:ryantm/agenix";
+        agenix.inputs.darwin.follows = ""; # don't fetch this input, treat it as unused
+        agenix.inputs.home-manager.follows = ""; # don't fetch this input, treat it as unused
     };
 
     outputs = inputs: {
