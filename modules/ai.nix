@@ -1,8 +1,25 @@
 # local ai installation
 
-{ inputs, pkgs, nixpkgs, userName, ... }: {
+{ inputs, pkgs, nixpkgs, userName, config, ... }: {
             
     config = {
+
+        # litellm: opensource llm gateway
+        ## decrypt environmentFile
+        age.secrets.litellm = {
+            file = ../secrets/litellm.age;   # relative to this file's location
+            owner = "litellm";
+            mode = "0400";
+        };
+
+        ## enable litellm service
+        services.litellm = {
+            enable = true;
+            host = "127.0.0.1"; # Change to "0.0.0.0" to listen on all interfaces
+            port = 4000;
+            # Add environment files, master keys, or database URLs as needed
+            environmentFile = config.age.secrets.litellm.path;
+        };
 
         # --- llama-cpp overlay ---
         # built for CPU with BLAS + native CPU optimizations
