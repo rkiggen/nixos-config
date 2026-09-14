@@ -19,6 +19,47 @@
             port = 4000;
             # Add environment files, master keys, or database URLs as needed
             environmentFile = config.age.secrets.litellm.path;
+
+            # Settings
+            settings = {
+                model_list = [
+                    # Planner: architecture, orchestration, MSP network analysis/planning (netops)
+                    {
+                        model_name = "planner";
+                        litellm_params = {
+                            model = "openrouter/z-ai/glm-5.3";
+                            api_key = "os.environ/OPENROUTER_API_KEY";
+                        };
+                    }
+
+                    # Writer: code generation, ansible playbooks, docs (tentative), reviewer (reused)
+                    {
+                        model_name = "writer";
+                        litellm_params = {
+                            model = "openrouter/deepseek/deepseek-v4-pro";
+                            api_key = "os.environ/OPENROUTER_API_KEY";
+                        };
+                    }
+
+                    # Worker: shell/tool execution, high-volume file reads
+                    {
+                        model_name = "worker";
+                        litellm_params = {
+                            model = "openrouter/deepseek/deepseek-v4-flash";
+                            api_key = "os.environ/OPENROUTER_API_KEY";
+                        };
+                    }
+
+                    # Assistant: general admin tasks (email, summaries, scheduling), no coding benchmarks needed
+                    {
+                        model_name = "assistant";
+                        litellm_params = {
+                            model = "openrouter/z-ai/glm-5.3-flash";
+                            api_key = "os.environ/OPENROUTER_API_KEY";
+                        };
+                    }
+                ];
+            };            
         };
 
         # --- llama-cpp overlay ---
