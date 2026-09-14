@@ -1,5 +1,5 @@
 
-# Security configuration
+# Harden my NixOS System
 # links:
 # - https://nixos.wiki/wiki/Security
 # - https://xeiaso.net/blog/paranoid-nixos-2021-07-18/

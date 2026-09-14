@@ -10,13 +10,19 @@
 { config, lib, pkgs, userName, ... }: {
 
     imports = [ 
-        ../../modules/agenix.nix
+        ./hardware-configuration.nix
         ../../modules/xfce.nix
         ../../modules/i3.nix
+        ../../modules/xorg.nix
+        ../../modules/system-hardening.nix
+        ../../modules/agenix.nix
         ../../modules/printing.nix
         ../../modules/scanning.nix
-        ../../modules/xorg.nix
-        ../../modules/graphical.nix
+        ../../modules/documents.nix
+        ../../modules/graphics.nix
+        ../../modules/media.nix
+        ../../modules/sync.nix
+        ../../modules/utilities.nix
         ../../modules/terminal.nix
         ../../modules/fonts.nix
         ../../modules/browser.nix
@@ -30,9 +36,7 @@
         ../../modules/virtualization.nix
         ../../modules/wireguard.nix
         ../../modules/kdeconnect.nix
-        ../../modules/security.nix
         ../../modules/ai.nix
-        ./hardware-configuration.nix
     ];
     
     # Allow updates device firmware/BIOS
