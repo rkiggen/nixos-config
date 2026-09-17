@@ -3,40 +3,63 @@
 In this document I describe my way of working (installing & updating) with NixOS, which is the result of many
 iterations. The goal of my configuration is to create setup which allows me to define all my devices.
 
-Currently I only use flakes in a modular fashion and I have dropped home-manager because I like to change and test my
-configurations on the fly without the need to rebuild my entire system!
-
-Which means that most applications are configured via their dotfiles, and I've left the management of my .dotfiles out
-of Nix entirely and opted to work with a dotfile manager. Since I work on different OS'es throughout the day this has
-the added benefit that I can reuse my dotfiles across all the operating systems I use.
-
-The dotfile manager I'm currently using is [[https://www.chezmoi.io/][chezmoi]].
+The main design decisions:
+- *Flakes only:* every host is defined in one flake and pinned to its own nixpkgs inputs, so machines can track channels (and be updated) independently;
+- *No home-manager:* I like to change and test my configurations on the fly without the need to rebuild my entire system;
+- *Dotfiles outside of Nix:* most applications are configured via their dotfiles. Since I work on different OS'es throughout the day I manage them with [[https://www.chezmoi.io/][chezmoi]], which has the added benefit that I can reuse my dotfiles across all the operating systems I use;
+- *Secrets at rest:* secrets are encrypted with [[https://github.com/ryantm/agenix][agenix]] (age encrypted, using SSH keys) and live in the repository itself.
 
 If you want to learn more about NixOS and the way you can install & configure it, I can recommend the following
-resource: [[https://nixos.wiki/wiki/Wil_T_Nix_Guides][Will T Nix Guides]]  by Will Taylor,  and you should also read the NixOS Installation Guide:
+resource: [[https://nixos.wiki/wiki/Wil_T_Nix_Guides][Wil T Nix Guides]] by Wil Taylor, and you should also read the NixOS Installation Guide:
 https://nixos.wiki/wiki/NixOS_Installation_Guide
+
+* Repository layout
+
+| Path                        | Purpose                                                                       |
+|-----------------------------+-------------------------------------------------------------------------------|
+| =flake.nix= / =flake.lock=  | all hosts, each pinned to its own nixpkgs inputs                              |
+| =hosts/<hostname>/=         | one directory per machine: =default.nix= (policy) + =hardware-configuration.nix= (hardware) |
+| =modules/=                  | composable feature modules, imported per host (see =modules/README.org=)      |
+| =secrets/=                  | agenix encrypted secrets + =secrets.nix= (the public key registry)            |
+| =assets/=                   | wallpapers & other files referenced by modules                                |
+| =defaults/=                 | starter fragments for a fresh install (not imported by the flake)             |
+| =backups/=                  | pre-flake configuration of an old machine, kept for reference                 |
+| =host-install.sh=           | =nixos-install --flake .=                                                     |
+| =host-rebuild.sh=           | =nixos-rebuild switch --flake .=                                              |
+| =update.sh=                 | =nix flake update=                                                            |
+
+A host is composed of three parts:
+1. =hosts/<hostname>/hardware-configuration.nix= — everything specific to the exact piece of hardware: filesystems, kernel params, firmware quirks and workarounds;
+2. =hosts/<hostname>/default.nix= — the policy for this host: which modules to import (=../../modules/...=) plus host specific settings (boot loader, bluetooth, sound, power, ...);
+3. =modules/common.nix= — always included (via =flake.nix=): user account, timezone, locale, nix settings and a bare minimum of tools.
+
+Every module receives =userName=, =hostName= and a =nixpkgs= argument which selects packages from a specific channel:
+
+#+begin_src nix
+nixpkgs.from.stable.git                # the host's "stable" channel
+nixpkgs.from.unstable.foo              # the host's "unstable" channel
+nixpkgs.for.rider.jetbrains.rider      # a pinned channel kept for one specific package
+#+end_src
+
+Because each host gets its own inputs (=nixpkgs-for-nixos-<host>=, =nixpkgs-from-stable-<host>=, ...) in =flake.nix=, moving a single machine to a new NixOS release never affects the others.
 
 * Installing NixOS (clean install)
 
-I tend to install new pc's with the bare minimum config (and some sensible defaults) I need. 
-And once I've booted into the persisted system, I apply the config I want. This approach allows
-me to rollback to a working version.
+I tend to install new PCs with the bare minimum config (and some sensible defaults) I need.
+And once I've booted into the persisted system, I migrate the machine into my flake (see the next section). This approach allows
+me to roll back to a working version.
 
 _Summary steps:_
 1. Create your installation medium;
 2. After booting into the installer, I launch a partition editor and partition my drives;
-3. I mount the necessary partitions as =/mnt= and =/mnt/boot= (according to the NixOS installation manual;
-4. I run =sudo nixos-generate-config --root .mnt= which creates 2 files: config & hardware config;
-5. I edit these file to configure some basic/sensible defaults, like:
-   - creating a user
-   - setting a hostname
-   - have some default applications like: browser, text editor
-6. Once done and save, I run =sudo nixs-install --root /mnt= and wait;
-7. Reboot into my new system and migrate my config to flakes;
+3. I mount the necessary partitions as =/mnt= and =/mnt/boot= (according to the NixOS installation manual);
+4. I run =nixos-generate-config --root /mnt= which creates 2 files: config & hardware config;
+5. I edit the config file to set up the basics: a user, a hostname and a few default applications (browser, text editor);
+6. Once done and saved, I run =nixos-install= and wait;
+7. Reboot into the new system and migrate the machine into this flake.
 
 Working this way means I have to apply my personal config later, but it gives me that first persistent generation
-to fallback on sice otherwise I'd have to redo the entire thing all over again.
-
+to fall back on, since otherwise I'd have to redo the entire thing all over again.
 
 ** Step 1 - Prepare installation medium
 
@@ -52,24 +75,23 @@ Before you boot the installer, make sure you have:
 ** Step 2 - Partitioning
 
 After booting the installer, the first thing you need to do is to identify what type of firmware your computer uses:
-either UEFI or legacy BIOS and then choose the appropriate partioning scheme for that firmware.
+either UEFI or legacy BIOS and then choose the appropriate partitioning scheme for that firmware.
 
 In Linux (and in the NixOS shell) you can use the following command to find out which one you are using:
 
-#+begin_src
+#+begin_src shell
 $ [ -d /sys/firmware/efi ] && echo UEFI || echo BIOS
 #+end_src
 
-Create at least 2 partitions one boot partition and one root partition, the boot partition will either be an ext4
-partition (legacy BIOS) or a ESP/fat partition (UEFI) whereas the root partition will be a LVM (8300 Linux LVM)
+Create at least 2 partitions, one boot partition and one root partition. The boot partition will either be an ext4
+partition (legacy BIOS) or an ESP/fat partition (UEFI), whereas the root partition will be a LVM (8300 Linux LVM)
 partition (which we can encrypt for additional security).
 
-Since mosts computers use UEFI nowadays I'll write out the partitioning setup for a UEFI system.
+Since most computers use UEFI nowadays I'll write out the partitioning setup for a UEFI system.
+Create a 500MB EFI boot partition (=/dev/sda1=) and the rest of the disk (=/dev/sda2=) will be our LUKS encrypted
+physical volume for LVM.
 
-Create a 500mb EFI boot partition (=/dev/sda1=) and the rest will be our nd the rest will be our LUKS encrypted physical
-volume for LVM (=/dev/sda2=).
-
-#+begin_src
+#+begin_src shell
 $ gdisk /dev/sda
 #+end_src
 
@@ -78,179 +100,195 @@ $ gdisk /dev/sda
 - =n= (add partition, remaining space, type 8300 Linux LVM)
 - =w= (write partition table and exit)
 
-Setup the encrypted LUKS partition and open it:
+Set up the encrypted LUKS partition and open it:
 
-#+begin_src
-$  cryptsetup luksFormat /dev/sda2  #encrypt the partition with luks
-$  cryptsetup luksOpen /dev/sda2 enc-pv # decrypt the partition to a device name sda2-enc
+#+begin_src shell
+$ cryptsetup luksFormat /dev/sda2        # encrypt the partition with luks
+$ cryptsetup luksOpen /dev/sda2 sda2-enc # decrypt the partition to the device name sda2-enc
 #+end_src
 
-Now we are ready to add our encrypted volume to LVM:
+Now we are ready to add our encrypted partition to LVM:
 
-#+begin_src
-$ pvcreate /dev/mapper/sda2-enc # add our encrypted partition as physical volume to LVM
-$ vgcreate vg-nixos /dev/mapper/sda2-enc # add the physical volume to volumegroup vg-nixos
-$ lvcreate -L 8G -n lv-swap vg-nixos # setup a logical volume (8GB size) for swap purposes in vg-nixos
-$ lvcreate -l '100%FREE' -n lv-root vg-nixos # create a logical volume for your root (remaing size) in vg-nixos
+#+begin_src shell
+$ pvcreate /dev/mapper/sda2-enc            # add the encrypted partition as a physical volume
+$ vgcreate vg-nixos /dev/mapper/sda2-enc   # add the physical volume to volume group vg-nixos
+$ lvcreate -L 8G -n lv-swap vg-nixos       # logical volume (8GB) for swap purposes
+$ lvcreate -l 100%FREE -n lv-root vg-nixos # logical volume for the root (remaining space)
 #+end_src
 
 Format the swap and root partitions (and label them!):
 
-#+begin_src
+#+begin_src shell
 $ mkswap -L swap /dev/vg-nixos/lv-swap
-$ mkfs.ext4 -L root /dev/vg-nixos/lv-root 
+$ mkfs.ext4 -L root /dev/vg-nixos/lv-root
 #+end_src
 
 ** Step 3 - Install NixOS
 
-We mount the partitions we just created under =/mnt= so we can install NixOS on them.
+We mount the partitions we just created under =/mnt= so we can install NixOS on them:
 
-#+begin_src
-$ mount /dev/vg_nixos/lv_root /mnt
+#+begin_src shell
+$ mount /dev/vg-nixos/lv-root /mnt
 $ mkdir /mnt/boot
 $ mount /dev/sda1 /mnt/boot
-$ swapon /dev/vg_nixos/lv_swap
+$ swapon /dev/vg-nixos/lv-swap
 #+end_src
 
 Configure WPA supplicant so we can use WIFI:
 
-#+begin_src
-$ cat > /etc/wpa_supplicant.conf
+#+begin_src shell
+$ cat > /etc/wpa_supplicant.conf <<EOF
 network={
   ssid="****"
   psk="****"
 }
-^D
+EOF
 $ systemctl start wpa_supplicant
 #+end_src
 
+Then generate the initial configuration, adapt it and install:
 
-** Easy initial configuration
+#+begin_src shell
+$ nixos-generate-config --root /mnt
+$ nano /mnt/etc/nixos/configuration.nix   # user, hostname, browser, text editor, ...
+$ nixos-install
+#+end_src
 
-NixOS provides good support for the Xfce desktop environment out-of-the-box, but the defaults are minimal. The files in
-the default folder provide  a more complete experience, including a suite of basic software and plugins.
+Keep this first configuration minimal: a user with a password, the hostname, flakes support (see
+[[*Enabling Flakes Support for NixOS][Enabling Flakes Support for NixOS]]) and one browser and text editor. The =defaults/= folder contains
+fragments from previous installs that you can use as a starting point, but they are not wired into the flake itself.
 
-You can change the generated configuration.nix file by including the desired .nix files from the =defaults= folder.
-The nix.nix file under the defaults folder is for instance already setup to enable flakes support.
+* Migrating a fresh install into this flake
 
-#+begin_example
-{ config, pkgs, lib, ... }:
+This is how every new machine lands in this repository:
 
-{
-  imports = [
-    ./hardware-configuration.nix
-    ./defaults/nix.nix
-    ./defaults/xfce.nix
-  ];
+1. Clone this repository onto the new machine (I keep it at =~/.config/nixos=);
+2. Create =hosts/<hostname>/= containing:
+   - =hardware-configuration.nix=: copy the file from =/etc/nixos= on the new machine and add the machine specific bits (kernel params, hardware workarounds, =nixos-hardware= modules) below it;
+   - =default.nix=: import =./hardware-configuration.nix= and the modules this host needs, and set the host specific policy (boot loader, firmware, networking, sound, power, ...). Use an existing host as a template;
+3. Register the host in =flake.nix=:
+   - add the per host nixpkgs inputs (=nixpkgs-for-nixos-<host>=, =nixpkgs-from-stable-<host>=, =nixpkgs-from-unstable-<host>= and optionally =nixpkgs-for-rider-<host>=), pointing them at the channels this machine should track;
+   - add a =nixosMachine= entry to =nixosConfigurations= with the =hostName=, =userName= and =system=;
+4. If the host needs secrets: add its root SSH host key (the =ssh-ed25519= line from =/etc/ssh/ssh_host_ed25519_key.pub=) to =secrets/secrets.nix= and run =agenix --rekey=;
+5. Build & switch:
 
-  # the rest of your nixos configuration
-}
-#+end_example
+#+begin_src shell
+sudo nixos-rebuild switch --flake .#<hostname>
+#+end_src
 
+(=host-rebuild.sh= runs the same command with =--flake .=, which resolves to the entry matching the machine's hostname.)
 
-** Managing the configuration with Git
+6. Commit everything, including =flake.lock=, so future rebuilds are reproducible.
+
+* Managing the configuration with Git
 :properties:
 :link: https://nixos-and-flakes.thiscute.world/nixos-with-flakes/other-useful-tips
 :end:
 
 NixOS configuration, being a set of text files, is well-suited for version control with Git. This allows easy rollback
-to a previous version in case of issues. 
+to a previous version in case of issues.
 
 By default, NixOS places the configuration in =/etc/nixos=, which requires root permissions for modification, making it
-inconvenient for daily use. Thankfully, Flakes can help solve this problem by allowing you to place your flake anywhere
-you prefer. 
+inconvenient for daily use. Since a flake can live anywhere, I keep this repository in my home directory
+(=~/.config/nixos=) and point =nixos-rebuild= at it explicitly:
 
-For example, you can place your flake in ~/nixos-config and create a symbolic link in /etc/nixos as follows:
+#+begin_src shell
+sudo nixos-rebuild switch --flake ~/.config/nixos#<hostname>
+#+end_src
+
+Alternatively, you can create a symbolic link in =/etc/nixos= so that a bare =sudo nixos-rebuild switch --flake .=
+works from the repository root:
 
 #+begin_src shell
 sudo mv /etc/nixos /etc/nixos.bak  # Backup the original configuration
-sudo ln -s ~/nixos-config /etc/nixos
-
-# Deploy the flake.nix located at the default location (/etc/nixos)
-sudo nixos-rebuild switch
+sudo ln -s ~/.config/nixos /etc/nixos
 #+end_src
 
 * Maintaining your system
 
 ** Update your system
-Make the necessary changes to your modules and execute:
+
+Make the necessary changes to the modules and execute:
 
 #+begin_src shell
 host-rebuild.sh
-#+end_sr
+#+end_src
+
+To bump the pinned inputs in =flake.lock= to the latest commit of their tracked channels:
+
+#+begin_src shell
+update.sh        # nix flake update
+host-rebuild.sh  # build & activate
+#+end_src
+
+Don't forget to commit the updated =flake.lock= afterwards.
+
+** Rolling back
+
+Every switch creates a new generation you can return to:
+
+#+begin_src shell
+sudo nixos-rebuild list-generations         # list all generations
+sudo nixos-rebuild switch --rollback        # go back to the previous generation
+#+end_src
+
+You can also pick any older generation from the boot menu at startup (I keep the last 10 via
+=boot.loader.systemd-boot.configurationLimit=).
 
 ** Clean up your system
-You can configure NixOS to automatically clean up your system, see the section about storage optimization for more info.
 
-*** Delete old generations
-
-First, list all generations:
+Garbage collection is already configured in =modules/common.nix= (weekly, deleting everything older than 7 days).
+To clean up manually:
 
 #+begin_src shell
-   sudo nix-env --list-generations
-   # or following command does not work the use profile options
-   sudo nix-env --list-generations --profile /nix/var/nix/profiles/system  
+# remove everything older than 14 days
+sudo nix-collect-garbage --delete-older-than 14d
+# or remove all old generations (everything but the current generation)
+sudo nix-collect-garbage -d
 #+end_src
 
-To remove the unused generations, you run the =nix-env= command for specific profile with the =delete-generations= option.
-The =delete-generations= option accept and ID as an argument. In this argument, you pass one or multiple IDs to delete
-the old generations in NixOS:
+Afterwards, rebuild the bootloader so obsolete boot entries disappear:
 
 #+begin_src shell
-  sudo nix-env --delete-generations 10 
-  # or
-  sudo nix-env --delete-generations 10 11 12 13 14 15 16 17 18 19 20 21
-
-  # or following command does not work the use profile options
-
-  sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations 10 
-  # or 
-  sudo nix-env --profile /nix/var/nix/profiles/system --delete-generations 10 11 12 13 14 15 16 17 18 19 20 21  
+sudo nixos-rebuild boot --flake .
 #+end_src
 
-Afterwards don’t forget to run the garbage collector:
+* Secrets management (agenix)
 
-#+begin_src shell
-  sudo nix-store --gc 
+Secrets are stored encrypted at rest in =secrets/= and are decrypted on each machine that needs them, using that
+machine's root SSH host key:
+
+- =secrets/secrets.nix= is the registry: it maps each =*.age= file to the public keys (mine + the machines) that should be able to decrypt it;
+- create or edit a secret with =agenix -e secrets/<name>.age= (run from the repository root);
+- after changing the keys in =secrets.nix=, re-encrypt all secrets with =agenix --rekey=;
+- in a module, decrypt the secret and hand it to a service:
+
+#+begin_src nix
+age.secrets.litellm = {
+    file = ../secrets/litellm.age;
+    owner = "litellm";
+    mode = "0400";
+};
+
+services.litellm = {
+    enable = true;
+    environmentFile = config.age.secrets.litellm.path;
+    # ...
+};
 #+end_src
 
-There is also a convenient little utility called =nix-collect-garbage= which when invoked with the -d (–delete-old)
-switch deletes all old generations of all profiles in /nix/var/nix/profiles. So:
-
-#+begin_src shell
-  sudo nix-collect-garbage -d
-#+end_src
-
-is a quick and easy way to clean up your system.
-
-*** Remove obsolete boot entries
-
-First, run the garbage collection for your system, the rebuild the bootloader.
-
-Run the garbage collector:
-#+begin_src shell
-  # remove everything older than 14 days
-  sudo nix-collect-garbage --delete-older-than 14d
-  # or remove all old generations (everything but the current generation)
-  sudo nix-collect-garbage -d
-#+end_src
-
-Rebuild the bootloader:
-
-#+begin_src shell
-   sudo nixos-rebuild boot --flake . 
-#+end_src
+See =modules/ai.nix= for the full example.
 
 * Appendix
 
 ** Encrypted partitions
 
-If you want to encrypt multiple partitions, it is good to know that upon booting the decryption password for the first
-partition will also be used for decrypting all subsequent partitions. Which means that if you want to enter only one
-password for decryption you’ll need to encrypt all partitions with the same password.
+If you want to encrypt multiple partitions but only enter one password, you need to encrypt all partitions with the
+same password: upon booting, the decryption password for the first partition will also be used for decrypting all
+subsequent partitions.
 
-You can either choose to encrypt the partitions (or drives) first and them use those as physical volumes for LVM (LUKS +
-LVM or LVM on top of LUKS) or you can set up LVM first and encrypt the logical volums with LUKS later (LVM + LUKS or
+You can either choose to encrypt the partitions (or drives) first and then use those as physical volumes for LVM (LUKS +
+LVM or LVM on top of LUKS) or you can set up LVM first and encrypt the logical volumes with LUKS later (LVM + LUKS or
 LUKS on top of LVM). I prefer to use LUKS + LVM.
 
 ** Using Flakes
@@ -261,7 +299,7 @@ LUKS on top of LVM). I prefer to use LUKS + LVM.
 :end:
 
 Currently, Flakes is still an experimental feature and not enabled by default. We need to manually modify the
-/etc/nixos/configuration.nix file to enable the Flakes feature and the accompanying new nix command-line tool: 
+configuration to enable the Flakes feature and the accompanying new nix command-line tool:
 
 #+begin_example
 { config, pkgs, ... }:
@@ -290,20 +328,14 @@ Currently, Flakes is still an experimental feature and not enabled by default. W
 }
 #+end_example
 
-
 After making these changes, run =sudo nixos-rebuild switch= to apply the modifications. Then, you can use the Flakes
-feature to manage your system configuration. 
+feature to manage your system configuration.
 
 The new nix command-line tool also offers some convenient features. For example, you can now use the =nix repl= command
-to open a nix interactive environment. If you're interested, you can use it to review and test all the Nix syntax you've
-learned before. 
+to open a nix interactive environment. If you're interested, you can use it to review and test all the Nix syntax
+you've learned.
 
 *** Switching System Configuration to =flake.nix=
-:properties:
-:link: https://nixos-and-flakes.thiscute.world/nixos-with-flakes/nixos-with-flakes-enabled
-:end:
 
-To be written out!
-
-
-
+This is exactly what the [[*Migrating a fresh install into this flake][Migrating a fresh install into this flake]] section describes: bringing a
+(freshly installed) machine under control of this repository's flake.

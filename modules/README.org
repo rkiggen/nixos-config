@@ -1,19 +1,69 @@
 * Introduction
 
-We start with some general modules for installing and configuring stuff and each time a specific application needs elaborate configuration or dependencies (other applications) we'll create a separate nix module for it.
+This directory contains the composable feature modules of my NixOS configurations. Each host (see =hosts/<hostname>/default.nix=) imports the modules it needs; =common.nix= is always included via =flake.nix= and never needs to be imported manually.
 
-* Modules
+The general rule: whenever a specific application (or group of related applications) needs elaborate configuration or brings its own dependencies, it gets its own module. Simple package lists live in the module matching their category.
 
-Currently the following general modules are available:
-- common.nix:  this module is used for specifying common settings and installing the bare minimum of tools;
-- xfce.nix: use this module if you want to setup the XFCE desktop environment, and installs the necessary xfce and gtk applications;
-- graphical.nix: use this module to manage all graphical (desktop) applications;
-- xorg.nix: via this module you can manage all X11 specific console applications;
-- console.nix: this module declares all (non X11 specific) console applications;
+All modules follow the same shape: they take the special arguments provided by =flake.nix= (=userName=, =hostName=, =nixpkgs=, ...) and configure everything under =config=. Packages are selected through the per-host channels:
 
-Below you can find the specific modules:
-- yazi.nix
+#+begin_src nix
+nixpkgs.from.stable.vlc      # this host's stable channel
+nixpkgs.for.rider.jetbrains.rider  # a channel pinned for one specific package
+#+end_src
 
+* Core modules
 
+| Module           | Purpose                                                                        |
+|------------------+--------------------------------------------------------------------------------|
+| =common.nix=     | always included: user account, timezone, locale, nix/gc settings, minimal tools, SSH host key for agenix |
+| =agenix.nix=     | installs the agenix CLI for creating/editing secrets                           |
+| =system-hardening.nix= | firewall defaults and ClamAV antivirus engine (daemon + signature updates) |
 
+* Desktop
 
+| Module        | Purpose                                                                              |
+|---------------+---------------------------------------------------------------------------------------|
+| =xfce.nix=     | XFCE desktop environment, LightDM with slick greeter (WhiteSur theming), Thunar, keymap |
+| =i3.nix=       | i3 window manager (used alongside XFCE), plus WM helper tools (autorandr, picom, dunst, feh) |
+| =xorg.nix=     | X11 command line utilities (wmctrl, xdotool, xclip, xcolor, ...)                       |
+| =rofi.nix=     | rofi application launcher                                                             |
+| =fonts.nix=    | additional fonts                                                                      |
+| =kdeconnect.nix= | KDE Connect for phone/desktop integration (sharing, notifications, ...)             |
+
+* Applications
+
+| Module        | Purpose                                                               |
+|---------------+------------------------------------------------------------------------|
+| =browser.nix= | web browsers                                                           |
+| =email.nix=   | Thunderbird email client                                               |
+| =media.nix=   | media playback (vlc)                                                   |
+| =graphics.nix=| drawing & image manipulation (pinta, inkscape)                        |
+| =documents.nix= | office & reading: libreoffice, calibre, foliate, zathura, meld, evince |
+| =emacs.nix=   | emacs as a service, plus document toolchain (pandoc, texlive, asciidoctor, wkhtmltopdf) |
+| =utilities.nix= | filesharing (deluge), security (keepassxc, veracrypt), windows compatibility (wine) |
+| =sync.nix=    | nextcloud-client desktop sync                                          |
+
+* Terminal & shell
+
+| Module        | Purpose                                                               |
+|---------------+------------------------------------------------------------------------|
+| =terminal.nix=| terminal applications (alacritty, tmux) and console tools (btop, tree, ...) |
+| =zsh.nix=     | zsh shell                                                              |
+| =starship.nix=| starship shell prompt                                                  |
+| =yazi.nix=    | yazi terminal file manager                                             |
+
+* Development & virtualization
+
+| Module            | Purpose                                                              |
+|-------------------+------------------------------------------------------------------------|
+| =development.nix= | IDEs & dev tools (rider via pinned nixpkgs, vscode, jq, direnv, devpod) |
+| =virtualization.nix= | KVM/QEMU (libvirtd, virt-manager), docker & podman + compose tools, dive, podlet |
+| =ai.nix=          | local AI stack: litellm gateway (API key via agenix secret), llama-cpp overlay build, llama-swap service, opencode & claude-code |
+
+* Hardware & peripherals
+
+| Module        | Purpose                                                              |
+|---------------+------------------------------------------------------------------------|
+| =printing.nix=| CUPS printing, printer drivers, avahi discovery                       |
+| =scanning.nix=| SANE document scanning, scanner backend drivers                       |
+| =wireguard.nix=| wireguard-tools and firewall path-checking for VPN use               |
