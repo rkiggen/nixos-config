@@ -10,7 +10,7 @@
             nixpkgs.from.stable.xcolor          # lightweight color picker for X11
             nixpkgs.from.stable.xdo             # small X utility to perform elementary actions on windows
             nixpkgs.from.stable.xdotool         # fake keyboard/mouse inout, window management, and more
-            nixpkgs.from.stable.xorg.xev        # print contents of xevents
+            nixpkgs.from.stable.xev             # print contents of xevents
             nixpkgs.from.stable.xprintidle
             nixpkgs.from.stable.xsel            # command line program for getting and setting the contents of the X selection
             nixpkgs.from.stable.xtitle          # outputs X window titles
