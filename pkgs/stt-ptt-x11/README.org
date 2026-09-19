@@ -1,0 +1,60 @@
+* Introduction
+
+This stt-ptt-x11 is an =x11= variant of a package for use with =wayland= which I found here:
+https://code.m3ta.dev/m3tam3re/nixpkgs
+
+* Usage
+
+This package creates a shell script =stt-ptt= which you can use to start recording or stop recording, once you've
+stopped recording, your dictation will be transcribed to text.
+
+#+begin_source shell
+stt-ptt start   # begins recording
+stt-ptt stop    # stops recording, transcribes, types the result
+#+end_source
+
+So to test it manually from a terminal, you'd run stt-ptt start, speak, then run stt-ptt stop in a second terminal (or
+after backgrounding/foregrounding) - the transcribed text gets typed wherever your cursor/focus currently is, not into
+the terminal you ran it from. 
+
+* Post installation steps
+
+After installing this package you'll need to:
+1. Download a whisper model and copy it over to =$XDG_DATA_HOME/stt-ptt/models/= (usualy ./local/share/stt-ptt/models)
+2. Create a script which can toggle your dictation session;
+3. Bind the toggle script to a hotkey in your DE's (XFCE in my case) keyboard settings;
+
+** Downloading whisper models
+
+The whisper-cpp package uses the ggml-format models (converted for efficient C++ inference), hosted on Hugging Face by
+the whisper.cpp maintainer:
+
+Model repo: https://huggingface.co/ggerganov/whisper.cpp/tree/main
+
+
+You'd download the one referenced in the script's default, ggml-large-v3-turbo.bin, and place it at:
+
+#+begin_src shell
+$XDG_DATA_HOME/stt-ptt/models/ggml-large-v3-turbo.bin
+#+end_src
+
+(typically ~/.local/share/stt-ptt/models/ggml-large-v3-turbo.bin)
+
+** Toggle dictate script
+
+Below you can find an example of the toggle-speech-to-text script:
+
+#+begin_src shell
+
+  #!/usr/bin/env bash
+  if pgrep -f "pw-record.*stt-ptt" > /dev/null; then
+      stt-ptt stop
+  else
+      stt-ptt start
+  fi
+  
+#+end_src
+
+
+ 
+   

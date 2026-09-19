@@ -1,5 +1,8 @@
 # Utilities: filesharing, security tools & windows compatibility
-{ pkgs, nixpkgs, ... }: {
+{ pkgs, nixpkgs, ... }: 
+let
+  whisperVulkan = nixpkgs.from.stable.whisper-cpp.override { vulkanSupport = true; };  
+in {
 
     config = {
         environment.systemPackages = [
@@ -16,7 +19,7 @@
             nixpkgs.from.stable.winetricks             
 
             # speech to text
-            (pkgs.callPackage ../pkgs/stt-ptt-x11 { })
+            (pkgs.callPackage ../pkgs/stt-ptt-x11 { whisper-cpp = whisperVulkan; }) # build whisper-cpp with vulkanSupport
 
         ];
     };
