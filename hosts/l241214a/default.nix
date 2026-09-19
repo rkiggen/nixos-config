@@ -14,7 +14,7 @@
         ../../modules/xfce.nix
         ../../modules/i3.nix
         ../../modules/xorg.nix
-        ../../modules/system-hardening.nix
+        ../../modules/hardening
         ../../modules/agenix.nix
         ../../modules/printing.nix
         ../../modules/scanning.nix
