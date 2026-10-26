@@ -54,7 +54,7 @@
     # Recommended with Plymouth + LUKS: systemd-based initrd
     boot.initrd.systemd.enable = true;
     boot.plymouth.enable = true;
-    boot.plymouth.theme = "glow";
+    boot.plymouth.theme = "glowing";
     boot.plymouth.themePackages = [ 
         (pkgs.adi1090x-plymouth-themes.override { 
             selected_themes = [ 
@@ -62,7 +62,7 @@
                 "deus_ex" 
                 "dragon"
                 "flame"
-                "glow"
+                "glowing"
                 "green_blocks"
                 "hud_3"
                 "owl"
