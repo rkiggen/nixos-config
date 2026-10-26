@@ -15,6 +15,11 @@
             };
         };
 
+        # Make /etc/hosts editable as root
+        # This will copy the file instead of symlinking it. 
+        # So the default config will be written to it but you can also change it anytime
+        environment.etc.hosts.mode = "0644"; 
+
         users.users.${userName} = {
             isNormalUser = true;
             initialPassword = "password"; # change with `passwd`
