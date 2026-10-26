@@ -50,16 +50,32 @@
     boot.loader.efi.canTouchEfiVariables = true;
 
     # Styling the boot process
+    # themes from https://github.com/adi1090x/plymouth-themes
+    # Recommended with Plymouth + LUKS: systemd-based initrd
+    boot.initrd.systemd.enable = true;
     boot.plymouth.enable = true;
-    boot.plymouth.theme = "darth_vader";
-    boot.plymouth.themePackages = [ (pkgs.adi1090x-plymouth-themes.override { selected_themes = [ "rings" "darth_vader" ]; }) ];
+    boot.plymouth.theme = "glow";
+    boot.plymouth.themePackages = [ 
+        (pkgs.adi1090x-plymouth-themes.override { 
+            selected_themes = [ 
+                "darth_vader" 
+                "deus_ex" 
+                "dragon"
+                "flame"
+                "glow"
+                "green_blocks"
+                "hud_3"
+                "owl"
+                "rings" 
+                ]; 
+        }) 
+    ];
     
     # Optional but recommended for a clean look — hides the usual
     # scrolling kernel/systemd log text during boot
-    boot.consoleLogLevel = 3;
+    boot.consoleLogLevel = 4; # Show warnings and above
     boot.initrd.verbose = false;
     boot.kernelParams = [
-        "quiet"
         "udev.log_level=3"
         "systemd.show_status=auto"
     ];
