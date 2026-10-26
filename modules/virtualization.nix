@@ -66,6 +66,12 @@
             nixpkgs.from.stable.podman-compose      # start group of containers for dev    
             nixpkgs.from.stable.podlet              # generate Podman Quadlet files from a Podman command, compose file, or existing object
             nixpkgs.from.stable.virtiofsd           # vhost-user virtio-fs device backend written in Rust
+            nixpkgs.from.stable.cloud-utils         # useful set of utilities for interacting with a cloud
+        ];
+
+        # Ensure cloud-init works by creating /var/lib/libvirtd/boot
+        systemd.tmpfiles.rules = [
+            "d /var/lib/libvirt/boot 0711 root root -"
         ];
    };
 }
