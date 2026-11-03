@@ -3,7 +3,7 @@
     config = {
         environment.systemPackages = [ pkgs.firejail ];
 
-        programs.firejail {
+        programs.firejail = {
             enable = true;
             wrappedBinaries = {
 
