@@ -1,5 +1,5 @@
 # hardening/firejail.nix: sandboxing via firejail
-{ pkgs, ... }: {
+{ pkgs, userName, ... }: {
     config = {
         environment.systemPackages = [ pkgs.firejail ];
 
@@ -9,12 +9,12 @@
 
                 claude = {
                     executable = "${pkgs.claude-code}/bin/claude";
-                    profile = "${./firejail/claude-code.profile}";
+                    profile = "/home/${userName}/.config/firejail/claude-code.profile";
                 };
 
                 opencode = {
                     executable = "${pkgs.opencode}/bin/opencode";
-                    profile = "${./firejail/opencode.profile}";
+                    profile = "/home/${userName}/.config/firejail/opencode.profile}";
                 };
             };
         };
@@ -28,5 +28,3 @@
         #'';    
     };
 }
-
-
