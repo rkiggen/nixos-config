@@ -12,7 +12,11 @@
             # nixpkgs.from.stable.masterpdfeditor					    # pdf editor
             nixpkgs.from.stable.meld                                # visual diff and merge tool
             nixpkgs.from.stable.zathura                             # pdf viewer
-            
+
+            # spelling
+            nixpkgs.from.stable.hunspell                            # Spell checker
+            nixpkgs.from.stable.hunspellDicts.en_US                 # Hunspell dictionary for English (United States) from Wordlist
+            nixpkgs.from.stable.hunspellDicts.nl_nl                 # Hunspell dictionary for Dutch (Netherlands) from OpenTaal
         ];
     };
 }
