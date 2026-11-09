@@ -25,6 +25,9 @@
         ];
 
         fonts.packages = [
+            nixpkgs.from.stable.libertinus
+            nixpkgs.from.stable.inter
+            nixpkgs.from.stable.jetbrains-mono
             nixpkgs.from.stable.corefonts
             nixpkgs.from.stable.liberation_ttf
             nixpkgs.from.stable.nerd-fonts.jetbrains-mono
