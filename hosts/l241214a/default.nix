@@ -29,6 +29,7 @@
         ../../modules/email.nix
         ../../modules/rofi.nix
         ../../modules/zsh.nix
+        ../../modules/fzf.nix
         ../../modules/starship.nix
         ../../modules/yazi.nix
         ../../modules/emacs.nix

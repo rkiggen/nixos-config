@@ -18,10 +18,21 @@
                 update = "sudo nixos-rebuild switch";
             };
             histSize = 10000;
+
+            interactiveShellInit = ''
+                source ${pkgs.fzf}/share/fzf/completion.zsh
+                source ${pkgs.fzf}/share/fzf/key-bindings.zsh
+            '';
         };
 
         # Prevent the new user dialog in zsh
         system.userActivationScripts.zshrc = "touch .zshrc";
+
+        # install the fzf plugin for zsd
+        environment.systemPackages = [
+            nixpkgs.from.stable.fzf-zsh-plugin
+        ];
+
     };
 }
 
